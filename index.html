@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The MarioVerse</title>
+    <!-- MarioVerse Font Import -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      @font-face {
+        font-family: "Super Mario Bros";
+        src: url("https://fonts.cdnfonts.com/s/14605/SuperMario256.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      html,
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        min-width: 100vw;
+        width: 100vw;
+        height: 100vh;
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow-x: hidden;
+        /* Remove all overflow except for Game Hub */
+        overflow-y: hidden;
+        box-sizing: border-box;
+      }
+
+      body.theme-mario,
+      html.theme-mario {
+        background: linear-gradient(
+          120deg,
+          #ffb3b3 0%,
+          #e63946 100%
+        ) !important;
+        background-size: 400% 400% !important;
+        animation: gradientBG 15s ease infinite !important;
+      }
+      body.theme-luigi,
+      html.theme-luigi {
+        background: linear-gradient(
+          120deg,
+          #b6ffb0 0%,
+          #3ad029 100%
+        ) !important;
+        background-size: 400% 400% !important;
+        animation: gradientBG 15s ease infinite !important;
+      }
+      body.theme-rosalina,
+      html.theme-rosalina {
+        background: linear-gradient(
+          120deg,
+          #e0f7fa 0%,
+          #81d4fa 100%
+        ) !important;
+        background-size: 400% 400% !important;
+        animation: gradientBG 15s ease infinite !important;
+      }
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2em 2em;
+        background: linear-gradient(90deg, #fff176 0%, #e63946 100%);
+        color: #222;
+        border-radius: 0 0 2em 2em;
+        margin: 0;
+        width: 100vw;
+        /* height: 3vh; */
+        min-width: 0;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.25);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+
+      @media (max-width: 700px) {
+        .navbar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0.7em 1em 0.7em 1em;
+          border-radius: 0 0 1.2em 1.2em;
+        }
+        .title {
+          font-size: 1.2em;
+          margin: 0.2em 0 0.5em 0.2em;
+          padding: 0.1em 0.2em;
+        }
+        /* .stars class removed */
+        #openThemeShopBtn {
+          margin: 0.5em 0 0 0;
+          width: 100%;
+          font-size: 1em;
+        }
+      }
+
+      @media (max-width: 700px) {
+        #homeContainer {
+          margin-top: 50px !important;
+          padding: 0 0.5em;
+        }
+        #homeContainer > div[style*="flex-wrap"] {
+          flex-direction: column !important;
+          gap: 1.2em !important;
+          align-items: stretch !important;
+          margin-top: -1.5em !important;
+        }
+        #homeContainer > div[style*="flex-wrap"] > div {
+          min-width: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+          padding: 1.2em 0.7em 1em 0.7em !important;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .title {
+          font-size: 1em;
+        }
+        .navbar {
+          padding: 0.5em 0.3em;
+        }
+        #homeContainer {
+          margin-top: 55px !important;
+        }
+        #homeContainer > div[style*="flex-wrap"] > div {
+          padding: 0.7em 0.2em 0.7em 0.2em !important;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .quiz-container {
+          padding: 0.5em 0 1em 0;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .quiz-container {
+          padding: 0.2em 0 0.5em 0;
+        }
+        .question {
+          font-size: 1em;
+        }
+        .answers button {
+          font-size: 0.95em;
+          padding: 0.7em 0.7em;
+        }
+      }
+      .title {
+        font-size: 2.4em;
+        font-family: "Luckiest Guy", "Segoe UI", Arial, sans-serif;
+        letter-spacing: 0.04em;
+        background: linear-gradient(
+          90deg,
+          #3b77f8 0%,
+          #0077ff 60%,
+          #19e0ff 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: brightness(1.1) drop-shadow(0 0 8px #ffd60088);
+        padding: 0.1em 0.3em;
+        border-radius: 0.5em;
+        margin-right: 1.5em;
+        margin-left: 0.5em;
+        display: inline-block;
+        transition: text-shadow 0.3s, filter 0.3s;
+      }
+      /* Mario Red Theme */
+
+      body.theme-mario {
+        background: linear-gradient(120deg, #ffb3b3 0%, #e63946 100%);
+        color: #b71c1c;
+      }
+      body.theme-mario::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background: linear-gradient(120deg, #ffb3b3 0%, #e63946 100%);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        pointer-events: none;
+      }
+      body.theme-mario .navbar {
+        background: linear-gradient(90deg, #ffd6d6 0%, #e63946 100%);
+        color: #b71c1c;
+      }
+      body.theme-mario .title {
+        background: none;
+        color: #fff;
+        text-shadow: 2px 2px #f43646, 0 2px 8px #ffd6d6cc, 0 0 2px #b71c1c;
+        filter: none;
+      }
+
+      body.theme-mario .quiz-container,
+      body.theme-mario #homeContainer,
+      body.theme-mario #themeShop {
+        background: rgba(255, 255, 255, 0.22) !important;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        color: #b71c1c;
+      }
+      body.theme-mario footer#gameFooter {
+        color: #fff;
+      }
+      .quiz-container {
+        width: 100vw;
+        min-height: calc(100vh - 70px); /* subtract navbar height */
+        height: calc(100vh - 70px);
+        margin: 0;
+        background: rgba(255, 255, 255, 0.22);
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.5em 0 2em 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: none;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+      .question {
+        font-size: 1.3em;
+        margin-bottom: 1.2em;
+        color: #222;
+        text-shadow: 0 1px 8px #fff8;
+      }
+      .answers button {
+        display: block;
+        margin: 0.7em 0;
+        padding: 0.9em 1.2em;
+        border: none;
+        border-radius: 1.5em;
+        background: rgba(255, 255, 255, 0.45);
+        color: #222;
+        font-size: 1.1em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px #0001;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .answers button:hover {
+        background: rgba(255, 255, 255, 0.7);
+        color: #ff5252;
+        transform: scale(1.05);
+      }
+      /* .stars class removed */
+      .code-box {
+        background: rgba(255, 255, 255, 0.35);
+        color: #1976d2;
+        padding: 0.5em 1.2em;
+        border-radius: 1.2em;
+        font-weight: bold;
+        box-shadow: 0 2px 8px #0001;
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+      }
+      #headerCodeForm input {
+        border-radius: 1em;
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        padding: 0.5em 1em;
+        background: rgba(255, 255, 255, 0.5);
+        font-size: 1em;
+        margin-right: 0.5em;
+        outline: none;
+      }
+      #headerCodeForm button {
+        border-radius: 1em;
+        border: none;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        padding: 0.5em 1.2em;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      #headerCodeForm button:hover {
+        background: #ff5252;
+        color: #fff;
+      }
+      .theme-btn {
+        margin: 1em 0.5em 0 0;
+        padding: 0.7em 1.3em;
+        border: none;
+        border-radius: 1.5em;
+        background: rgba(255, 255, 255, 0.45);
+        color: #222;
+        cursor: pointer;
+        font-size: 1.1em;
+        box-shadow: 0 2px 8px #0001;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .theme-btn.active {
+        background: rgba(255, 255, 255, 0.7);
+        color: #ff3d00;
+        border: 1.5px solid #ffd600;
+        transform: scale(1.07);
+      }
+      /* Frosted glass for theme shop */
+      #themeShop {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 2em;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        padding: 1.5em 1em 1em 1em;
+        margin: 0 auto;
+        max-width: 700px;
+      }
+
+      /* THEME CLASSES */
+      body.theme-default {
+        background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+        color: #222;
+      }
+      body.theme-default::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        pointer-events: none;
+      }
+
+      /* Luigi Green Theme */
+      body.theme-luigi {
+        background: linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%);
+        color: #155c1a;
+      }
+      body.theme-luigi::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background: linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        pointer-events: none;
+      }
+      body.theme-luigi .navbar {
+        background: linear-gradient(90deg, #b6ffb0 0%, #3ad029 100%);
+        color: #155c1a;
+      }
+      body.theme-luigi .title {
+        background: linear-gradient(90deg, #3ad029 0%, #b6ffb0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: brightness(1.1) drop-shadow(0 0 8px #b6ffb088);
+      }
+      body.theme-luigi .quiz-container,
+      body.theme-luigi #homeContainer,
+      body.theme-luigi #themeShop {
+        background: rgba(182, 255, 176, 0.22) !important;
+        color: #155c1a;
+      }
+      body.theme-luigi footer#gameFooter {
+        background: #3ad029 !important;
+        color: #fff;
+      }
+      body.theme-luigi .luigi-accent {
+        color: #3ad029 !important;
+        font-weight: bold;
+      }
+
+      /* Rosalina Ice Theme */
+      body.theme-rosalina {
+        background: linear-gradient(120deg, #e0f7fa 0%, #81d4fa 100%);
+        color: #1565c0;
+      }
+      body.theme-rosalina::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background: linear-gradient(120deg, #e0f7fa 0%, #81d4fa 100%);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        pointer-events: none;
+      }
+      body.theme-rosalina .navbar {
+        background: linear-gradient(90deg, #b3e5fc 0%, #1565c0 100%);
+        color: #1565c0;
+      }
+      body.theme-rosalina .title {
+        background: linear-gradient(90deg, #81d4fa 0%, #b3e5fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: brightness(1.1) drop-shadow(0 0 8px #b3e5fc88);
+      }
+      body.theme-rosalina .quiz-container,
+      body.theme-rosalina #homeContainer,
+      body.theme-rosalina #themeShop {
+        background: rgba(179, 229, 252, 0.22) !important;
+        color: #1565c0;
+      }
+      body.theme-rosalina footer#gameFooter {
+        background: #b3e5fc !important;
+        color: #1565c0;
+      }
+      body.theme-rosalina .rosalina-accent {
+        color: #81d4fa !important;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="mobileBlocker"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #e63946;
+        color: #fff;
+        text-align: center;
+        font-size: 1.5em;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: rgba(0, 0, 0, 0.12);
+          border-radius: 2em;
+          box-shadow: 0 4px 32px #0004;
+          padding: 2.5em 2em 2em 2em;
+          max-width: 95vw;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div style="font-size: 3em; margin-bottom: 0.5em">📱</div>
+        <b style="font-size: 1.2em">Screen size not supported</b><br />
+        <span style="font-size: 1em"
+          >Sorry, MarioVerse does not support mobile or very small
+          screens.</span
+        ><br />
+        <span style="font-size: 1em"
+          >Please use a larger device or resize your window.</span
+        ><br />
+        <span
+          style="
+            font-size: 1.2em;
+            color: #ffd600;
+            margin-top: 0.7em;
+            display: block;
+          "
+          >(Try on a desktop or tablet!)</span
+        >
+      </div>
+    </div>
+    <nav class="navbar" id="mainNavbar" style="position: relative">
+      <div
+        class="title"
+        style="
+          font-family: 'Luckiest Guy', 'Super Mario Bros', 'Montserrat', Arial,
+            sans-serif;
+          font-size: 2.1em;
+          letter-spacing: 0.08em;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          gap: 0.2em;
+        "
+      >
+        The MarioVerse
+        <span class="luigi-accent" style="display: none; margin-left: 0.5em"
+          >Luigi!</span
+        >
+        <span class="rosalina-accent" style="display: none; margin-left: 0.5em"
+          >Rosalina!</span
+        >
+      </div>
+
+      <!-- Mario fact box removed -->
+      <div class="theme-dropdown" style="position: relative">
+        <button
+          id="openThemeShopBtn"
+          style="
+            margin-right: 10em;
+            border-radius: 1em;
+            border: none;
+            background: #ffd600;
+            color: #222;
+            font-weight: bold;
+            padding: 0.5em 1.2em;
+            cursor: pointer;
+            transition: background 0.2s;
+          "
+        >
+          🎨 Theme Menu
+        </button>
+        <div
+          id="themeDropdownMenu"
+          style="
+            display: none;
+            position: absolute;
+            right: 10;
+            top: 110%;
+            background: #fff;
+            box-shadow: 0 4px 24px #0002;
+            border-radius: 1em;
+            padding: 1em 0.7em;
+            z-index: 999;
+            min-width: 180px;
+          "
+        >
+          <!-- Theme options will be injected here -->
+        </div>
+      </div>
+    </nav>
+    <div
+      class="quiz-container"
+      id="quizContainer"
+      style="
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        min-height: 100vh;
+        background: rgba(255, 255, 255, 0.22);
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.5em 0 2em 0;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: none;
+      "
+    >
+      <!-- Quiz content will be injected here -->
+    </div>
+    <!-- Home/Game Select -->
+    <div
+      id="homeContainer"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 89vh;
+        overflow-y: auto;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2.5em;
+          justify-content: center;
+          align-items: stretch;
+          max-width: 1200px;
+          width: 100%;
+        "
+      >
+        <!-- Mario Quiz Card -->
+        <div
+          style="
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 2em;
+            box-shadow: 0 4px 24px #0001;
+            padding: 2em 1.5em 1.5em 1.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+          "
+        >
+          <div style="font-size: 3em; margin-bottom: 0.3em">🍄</div>
+          <h2
+            style="
+              margin: 0 0 0.5em 0;
+              font-size: 1.5em;
+              color: #e63946;
+              text-shadow: 1px 1px 0 #fff176;
+            "
+          >
+            Mario Quiz
+          </h2>
+          <div
+            style="
+              font-size: 1.1em;
+              color: #444;
+              margin-bottom: 1.2em;
+              text-align: center;
+            "
+          >
+            Test your Super Mario knowledge across 3 levels!
+          </div>
+          <button
+            id="startMarioQuiz"
+            style="
+              font-size: 1.1em;
+              padding: 0.8em 2em;
+              margin: 0.5em 0 0 0;
+              border-radius: 1.5em;
+              background: #e63946;
+              color: #fff;
+              font-weight: bold;
+              box-shadow: 0 2px 8px #0002;
+              border: none;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+          >
+            Play Mario Quiz
+          </button>
+        </div>
+        <!-- Mario Memory Match Card -->
+        <div
+          style="
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 2em;
+            box-shadow: 0 4px 24px #0001;
+            padding: 2em 1.5em 1.5em 1.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+          "
+        >
+          <div style="font-size: 3em; margin-bottom: 0.3em">🃏</div>
+          <h2
+            style="
+              margin: 0 0 0.5em 0;
+              font-size: 1.5em;
+              color: #6f42c1;
+              text-shadow: 1px 1px 0 #ffd600;
+            "
+          >
+            Mario Memory Match
+          </h2>
+          <div
+            style="
+              font-size: 1.1em;
+              color: #444;
+              margin-bottom: 1.2em;
+              text-align: center;
+            "
+          >
+            Flip cards to match Mario characters! Test your memory and match
+            pairs of Mario, Luigi, Bowser, and more.
+          </div>
+          <button
+            id="startMemoryGame"
+            style="
+              font-size: 1.1em;
+              padding: 0.8em 2em;
+              margin: 0.5em 0 0 0;
+              border-radius: 1.5em;
+              background: #6f42c1;
+              color: #fff;
+              font-weight: bold;
+              box-shadow: 0 2px 8px #0002;
+              border: none;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+          >
+            Play Memory Match
+          </button>
+        </div>
+        <!-- Mario Coin Catcher Card -->
+        <div
+          style="
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 2em;
+            box-shadow: 0 4px 24px #0001;
+            padding: 2em 1.5em 1.5em 1.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+          "
+        >
+          <div style="font-size: 3em; margin-bottom: 0.3em">🪙</div>
+          <h2
+            style="
+              margin: 0 0 0.5em 0;
+              font-size: 1.5em;
+              color: #ff9800;
+              text-shadow: 1px 1px 0 #ffd600;
+            "
+          >
+            Mario Coin Catcher
+          </h2>
+          <div
+            style="
+              font-size: 1.1em;
+              color: #444;
+              margin-bottom: 1.2em;
+              text-align: center;
+            "
+          >
+            Move Mario to catch as many falling coins as you can in 30 seconds!
+            Avoid the Goombas!
+          </div>
+          <button
+            id="startCoinCatcher"
+            style="
+              font-size: 1.1em;
+              padding: 0.8em 2em;
+              margin: 0.5em 0 0 0;
+              border-radius: 1.5em;
+              background: #ff9800;
+              color: #fff;
+              font-weight: bold;
+              box-shadow: 0 2px 8px #0002;
+              border: none;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+          >
+            Play Coin Catcher
+          </button>
+        </div>
+        <!-- What Happens Next? Mario Quiz Card -->
+        <div
+          style="
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 2em;
+            box-shadow: 0 4px 24px #0001;
+            padding: 2em 1.5em 1.5em 1.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+          "
+        >
+          <div style="font-size: 3em; margin-bottom: 0.3em">🔤</div>
+          <h2
+            style="
+              margin: 0 0 0.5em 0;
+              font-size: 1.5em;
+              color: #39e66d;
+              text-shadow: 1px 1px 0 #ffd600;
+            "
+          >
+            Mario Word Scramble
+          </h2>
+          <div
+            style="
+              font-size: 1.1em;
+              color: #444;
+              margin-bottom: 1.2em;
+              text-align: center;
+            "
+          >
+            Unscramble Mario-related words! Can you solve them all?
+          </div>
+          <button
+            id="startWordScramble"
+            style="
+              font-size: 1.1em;
+              padding: 0.8em 2em;
+              margin: 0.5em 0 0 0;
+              border-radius: 1.5em;
+              background: #39e66d;
+              color: #fff;
+              font-weight: bold;
+              box-shadow: 0 2px 8px #0002;
+              border: none;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+          >
+            Play Word Scramble
+          </button>
+        </div>
+        <div
+          style="
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 2em;
+            box-shadow: 0 4px 24px #0001;
+            padding: 2em 1.5em 1.5em 1.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+          "
+        >
+          <div style="font-size: 3em; margin-bottom: 0.3em">❓</div>
+          <h2
+            style="
+              margin: 0 0 0.5em 0;
+              font-size: 1.5em;
+              color: #1976d2;
+              text-shadow: 1px 1px 0 #ffd600;
+            "
+          >
+            What Happens Next?
+          </h2>
+          <div
+            style="
+              font-size: 1.1em;
+              color: #444;
+              margin-bottom: 1.2em;
+              text-align: center;
+            "
+          >
+            Watch a Mario scene and guess what happens next! Can you predict the
+            outcome?
+          </div>
+          <button
+            id="startWhatNextQuiz"
+            style="
+              font-size: 1.1em;
+              padding: 0.8em 2em;
+              margin: 0.5em 0 0 0;
+              border-radius: 1.5em;
+              background: #1976d2;
+              color: #fff;
+              font-weight: bold;
+              box-shadow: 0 2px 8px #0002;
+              border: none;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+          >
+            Play What Happens Next?
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mario Word Scramble Modal will be injected here -->
+    <!-- Theme Shop Modal -->
+    <div
+      id="themeShopModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(30, 30, 60, 0.25);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        id="themeShop"
+        style="
+          margin-top: 0;
+          max-width: 700px;
+          min-width: 320px;
+          min-height: 200px;
+          position: relative;
+        "
+      >
+        <!-- Theme shop content injected here -->
+      </div>
+      <button
+        id="closeThemeShopBtn"
+        style="
+          position: absolute;
+          top: 2.5em;
+          right: 2.5em;
+          background: #ff5252;
+          color: #fff;
+          border: none;
+          border-radius: 1em;
+          font-size: 1.5em;
+          padding: 0.2em 0.7em;
+          cursor: pointer;
+          box-shadow: 0 2px 8px #0002;
+          z-index: 210;
+        "
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Simple Footer -->
+    <footer
+      id="gameFooter"
+      style="
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        min-width: 100vw;
+        max-width: 100vw;
+        height: 30px;
+        z-index: 150;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 -2px 16px #0002;
+        border-radius: 2em 2em 0 0;
+        padding: 0.2em 0.5em 0.2em 0.5em;
+        text-align: center;
+        font-size: 1em;
+        color: #222;
+        margin: 0;
+      "
+    >
+      <b>The MarioVerse</b> Israel Kasenene &copy; 2025.
+      <span style="color: #ca3333">Not affiliated with Nintendo</span>. <br />
+    </footer>
+
+    <script src="code.js"></script>
+    <script src="quiz.js"></script>
+
+    <script>
+      // THEME SYSTEM
+      const THEMES = [
+        { id: "default", name: "Default", desc: "Classic MarioVerse look." },
+        { id: "luigi", name: "Luigi Green", desc: "Luigi's signature green!" },
+        { id: "rosalina", name: "Rosalina Ice", desc: "Cool cosmic blue!" },
+      ];
+      function setTheme(themeId) {
+        document.body.classList.remove(
+          "theme-default",
+          "theme-luigi",
+          "theme-rosalina"
+        );
+        document.body.classList.add("theme-" + themeId);
+        // Update Coin Catcher background if open
+        const coinGameArea = document.getElementById("coinGameArea");
+        if (coinGameArea) {
+          let coinBg = "linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%)";
+          if (themeId === "mario")
+            coinBg = "linear-gradient(120deg, #ffb3b3 0%, #e63946 100%)";
+          if (themeId === "luigi")
+            coinBg = "linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%)";
+          if (themeId === "rosalina")
+            coinBg = "linear-gradient(120deg, #e0f7fa 0%, #81d4fa 100%)";
+          coinGameArea.style.background = coinBg;
+        }
+        // Store theme only in JS variable (no storage)
+        window._marioverse_theme = themeId;
+        // Show/hide accent text for Luigi/Rosalina
+        document
+          .querySelectorAll(".luigi-accent")
+          .forEach(
+            (e) => (e.style.display = themeId === "luigi" ? "" : "none")
+          );
+        document
+          .querySelectorAll(".rosalina-accent")
+          .forEach(
+            (e) => (e.style.display = themeId === "rosalina" ? "" : "none")
+          );
+      }
+      function getTheme() {
+        // Only use JS variable (no storage)
+        return window._marioverse_theme || "default";
+      }
+      // Render Theme Shop content
+      window.renderThemeShop = function () {
+        const dropdown = document.getElementById("themeDropdownMenu");
+        if (!dropdown) return;
+        let html = "";
+        THEMES.forEach((theme) => {
+          html += `<button class="theme-btn${
+            getTheme() === theme.id ? " active" : ""
+          }" data-theme="${
+            theme.id
+          }" style="text-align:left;display:flex;align-items:center;gap:1em;width:100%;padding:0.7em 1em;border-radius:0.8em;border:none;background:${
+            getTheme() === theme.id ? "#ffd600" : "#fff"
+          };color:${getTheme() === theme.id ? "#222" : "#444"};font-weight:${
+            getTheme() === theme.id ? "bold" : "normal"
+          };cursor:pointer;margin-bottom:0.3em;">${theme.name}</button>`;
+        });
+        dropdown.innerHTML = html;
+        dropdown.querySelectorAll(".theme-btn").forEach((btn) => {
+          btn.onclick = function (e) {
+            const theme = this.getAttribute("data-theme");
+            setTheme(theme);
+            dropdown.style.display = "none";
+          };
+        });
+      };
+
+      // Simple footer show/hide logic
+      function hideFooter() {
+        var f = document.getElementById("gameFooter");
+        if (f) f.style.display = "none";
+      }
+      function showFooter() {
+        var f = document.getElementById("gameFooter");
+        if (f) f.style.display = "";
+      }
+
+      // Mario facts for navbar removed
+
+      function checkMobileBlocker() {
+        const blocker = document.getElementById("mobileBlocker");
+        if (!blocker) return;
+        // Block if mobile device, or width < 700px, or (landscape and height < 500px)
+        const isMobile =
+          /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+            navigator.userAgent
+          );
+        const isTooNarrow = window.innerWidth < 700;
+        const isLandscape = window.innerWidth > window.innerHeight;
+        const isTooShortLandscape = isLandscape && window.innerHeight < 800;
+        if (isMobile || isTooNarrow || isTooShortLandscape) {
+          blocker.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        } else {
+          blocker.style.display = "none";
+          document.body.style.overflow = "";
+        }
+      }
+      window.addEventListener("resize", checkMobileBlocker);
+      document.addEventListener("DOMContentLoaded", function () {
+        checkMobileBlocker();
+        // Apply saved theme
+        setTheme(getTheme());
+        // Mario facts logic removed
+        // Theme menu now uses modal, not dropdown
+        const themeBtn = document.getElementById("openThemeShopBtn");
+        const themeDropdown = document.getElementById("themeDropdownMenu");
+        if (themeBtn && themeDropdown) {
+          themeBtn.onclick = (e) => {
+            e.stopPropagation();
+            if (themeDropdown.style.display === "block") {
+              themeDropdown.style.display = "none";
+            } else {
+              window.renderThemeShop();
+              themeDropdown.style.display = "block";
+            }
+          };
+          document.addEventListener("click", function (e) {
+            if (!themeDropdown.contains(e.target) && e.target !== themeBtn) {
+              themeDropdown.style.display = "none";
+            }
+          });
+        }
+        const scrambleWords = [
+          { scrambled: "RAIOM", answer: "MARIO" },
+          { scrambled: "ORBWSE", answer: "BOWSER" },
+          { scrambled: "IGLUI", answer: "LUIGI" },
+          { scrambled: "HPECA", answer: "PEACH" },
+          { scrambled: "IHSYO", answer: "YOSHI" },
+          { scrambled: "ODAT", answer: "TOAD" },
+          { scrambled: "RIOWA", answer: "WARIO" },
+          { scrambled: "OOGBMA", answer: "GOOMBA" },
+          { scrambled: "OAKOP", answer: "KOOPA" },
+          { scrambled: "NICO", answer: "COIN" },
+          { scrambled: "EIPP", answer: "PIPE" },
+          { scrambled: "KLCBO", answer: "BLOCK" },
+        ];
+        // (removed duplicate modal open/close logic for theme shop)
+
+        // Home/game select logic
+        const home = document.getElementById("homeContainer");
+        const quiz = document.getElementById("quizContainer");
+        const marioBtn = document.getElementById("startMarioQuiz");
+        if (marioBtn && quiz && home) {
+          marioBtn.onclick = () => {
+            home.style.display = "none";
+            quiz.style.display = "flex";
+            hideFooter();
+            setTheme("mario");
+            window.showQuestion && window.showQuestion();
+          };
+        }
+        // Memory Match game logic
+        const memoryBtn = document.getElementById("startMemoryGame");
+        if (memoryBtn && home) {
+          memoryBtn.onclick = () => {
+            hideFooter();
+            home.style.display = "none";
+            // Remove any previous memory game
+            let memoryDiv = document.getElementById("memoryContainer");
+            if (memoryDiv) memoryDiv.remove();
+            memoryDiv = document.createElement("div");
+            memoryDiv.id = "memoryContainer";
+            memoryDiv.style.display = "flex";
+            memoryDiv.style.flexDirection = "column";
+            memoryDiv.style.alignItems = "center";
+            memoryDiv.style.justifyContent = "center";
+            memoryDiv.style.minHeight = "80vh";
+            // Theme-aware accent color for Memory Match
+            let memAccent = "#6f42c1";
+            if (document.body.classList.contains("theme-mario"))
+              memAccent = "#e63946";
+            if (document.body.classList.contains("theme-luigi"))
+              memAccent = "#3ad029";
+            if (document.body.classList.contains("theme-rosalina"))
+              memAccent = "#1976d2";
+            memoryDiv.innerHTML = `
+                    <h2 style="font-size:2em;color:${memAccent};text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;">Mario Memory Match</h2>
+                    <div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,80px);gap:1em;margin-bottom:2em;"></div>
+                    <div id="memoryStatus" style="margin:1em 0 0 0;font-size:1.1em;color:#444;"></div>
+                    <button id="backToMenuBtn" style="padding:0.8em 2em;border-radius:1.5em;background:${memAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;margin-top:2em;">Back to Menu</button>
+                `;
+            document.body.appendChild(memoryDiv);
+            // Mario characters (use emoji for simplicity)
+            const characters = [
+              { name: "Mario", icon: '<img src="img/Mario.png"></img>' },
+              { name: "Luigi", icon: "👨\u200d🦱" },
+              { name: "Bowser", icon: "🐲" },
+              { name: "Peach", icon: "👸" },
+              { name: "Yoshi", icon: '<img src="img/Yoshi.png"></img>' },
+              { name: "Toad", icon: "🍄" },
+              { name: "Goomba", icon: '<img src="img/Goomba.png"></img>' },
+              { name: "Koopa", icon: '<img src="img/Koopa.png"></img>' },
+            ];
+            // Use 8 pairs (16 cards)
+            let cards = [...characters, ...characters].map((c, i) => ({
+              ...c,
+              id: i,
+            }));
+            // Shuffle
+            for (let i = cards.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            const grid = document.getElementById("memoryGrid");
+            let flipped = [],
+              matched = [];
+            function render() {
+              grid.innerHTML = "";
+              cards.forEach((card, idx) => {
+                const btn = document.createElement("button");
+                btn.style.width = "80px";
+                btn.style.height = "80px";
+                btn.style.fontSize = "2.5em";
+                btn.style.borderRadius = "1em";
+                btn.style.background =
+                  matched.includes(idx) || flipped.includes(idx)
+                    ? "#fff8e1"
+                    : "#ffd600";
+                btn.style.boxShadow = "0 2px 8px #0002";
+                btn.style.border = "2px solid #e63946";
+                btn.style.cursor = matched.includes(idx)
+                  ? "default"
+                  : "pointer";
+                btn.style.display = "flex";
+                btn.style.alignItems = "center";
+                btn.style.justifyContent = "center";
+                btn.style.padding = "0";
+                btn.style.overflow = "hidden";
+                if (matched.includes(idx) || flipped.includes(idx)) {
+                  if (card.icon.startsWith("<img")) {
+                    // Create an img element for better control
+                    const temp = document.createElement("div");
+                    temp.innerHTML = card.icon;
+                    const img = temp.querySelector("img");
+                    if (img) {
+                      img.style.display = "block";
+                      img.style.margin = "auto";
+                      img.style.width = "56px";
+                      img.style.height = "56px";
+                      img.style.objectFit = "contain";
+                      img.style.verticalAlign = "middle";
+                      btn.innerHTML = "";
+                      btn.appendChild(img);
+                    } else {
+                      btn.textContent = "❓";
+                    }
+                  } else {
+                    btn.textContent = card.icon;
+                  }
+                } else {
+                  btn.textContent = "❓";
+                }
+                btn.disabled = matched.includes(idx);
+                btn.onclick = () => {
+                  if (
+                    flipped.length < 2 &&
+                    !flipped.includes(idx) &&
+                    !matched.includes(idx)
+                  ) {
+                    flipped.push(idx);
+                    render();
+                    if (flipped.length === 2) {
+                      setTimeout(() => {
+                        const [a, b] = flipped;
+                        if (cards[a].name === cards[b].name && a !== b) {
+                          matched.push(a, b);
+                          document.getElementById(
+                            "memoryStatus"
+                          ).textContent = `Matched ${cards[a].name}!`;
+                        } else {
+                          document.getElementById("memoryStatus").textContent =
+                            "Try again!";
+                        }
+                        flipped = [];
+                        render();
+                        if (matched.length === cards.length) {
+                          document.getElementById("memoryStatus").textContent =
+                            "You matched all the Mario characters! 🎉";
+                        }
+                      }, 800);
+                    }
+                  }
+                };
+                grid.appendChild(btn);
+              });
+            }
+            render();
+            document.getElementById("backToMenuBtn").onclick = () => {
+              memoryDiv.style.display = "none";
+              home.style.display = "flex";
+              showFooter();
+              // Restore Game Hub scroll
+              home.style.overflowY = "auto";
+            };
+          };
+        }
+        // What Happens Next? Mario Quiz logic
+        var whatNextBtn = document.getElementById("startWhatNextQuiz");
+        if (whatNextBtn && home) {
+          whatNextBtn.onclick = () => {
+            hideFooter();
+            home.style.display = "none";
+            // Remove any previous what-next quiz
+            let whatNextDiv = document.getElementById("whatNextContainer");
+            if (whatNextDiv) whatNextDiv.remove();
+            whatNextDiv = document.createElement("div");
+            whatNextDiv.id = "whatNextContainer";
+            whatNextDiv.style.display = "flex";
+            whatNextDiv.style.flexDirection = "column";
+            whatNextDiv.style.alignItems = "center";
+            whatNextDiv.style.justifyContent = "center";
+            whatNextDiv.style.minHeight = "80vh";
+            // Use Mario Quiz style for What Happens Next quiz
+            whatNextDiv.innerHTML = `
+              <div class="quiz-theme-bg" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;position:relative;background:#f7f6f2;overflow-x:hidden;">
+                <div class="quiz-container" id="whatNextQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
+                  <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;max-width:700px;">
+                    <button id="backToMenuBtn2" style="padding:0.6em 1.5em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;">← Home</button>
+                    <button id="restartWhatNextBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:#1976d2;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;">Restart Quiz</button>
+                  </div>
+                  <h2 style="font-size:2.3em;color:#1976d2;text-shadow:1px 1px 0 #fff176;margin-bottom:1em;margin-top:0.5em;">What Happens Next?</h2>
+                  <div id="whatNextQuizContent" style="width:100%;max-width:700px;"></div>
+                </div>
+              </div>
+            `;
+            // Move the quiz container below the navbar
+            const navbar = document.querySelector(".navbar");
+            if (navbar && whatNextDiv.firstChild) {
+              document.body.insertBefore(whatNextDiv, navbar.nextSibling);
+            }
+            // What Happens Next? Mario Quiz questions (move from quiz.js later)
+            const whatNextQuestions = [
+              {
+                question:
+                  "Mario is running toward a ? Block. What happens next?",
+                image: null,
+                answers: [
+                  "He gets a coin",
+                  "A Goomba appears",
+                  "He gets a Super Mushroom",
+                  "The block disappears",
+                ],
+                correct: 2,
+              },
+              {
+                question: "Mario jumps on a Koopa Troopa. What happens next?",
+                image: null,
+                answers: [
+                  "The Koopa shell slides",
+                  "Mario takes damage",
+                  "Mario gets a Fire Flower",
+                  "A 1-Up appears",
+                ],
+                correct: 0,
+              },
+              {
+                question: "Mario grabs a Starman. What happens next?",
+                image: null,
+                answers: [
+                  "He becomes invincible",
+                  "He grows bigger",
+                  "He gets coins",
+                  "He loses a life",
+                ],
+                correct: 0,
+              },
+            ];
+            let whatNextIndex = 0;
+            let whatNextScore = 0;
+            function renderWhatNextQuestion() {
+              const q = whatNextQuestions[whatNextIndex];
+              let html = `<div class='question-text' style='font-size:1.3em;margin-bottom:1.2em;color:#222;text-shadow:0 1px 8px #fff8;text-align:center;'>${q.question}</div>`;
+              if (q.image) {
+                html += `<img src='${q.image}' style='max-width:100%;border-radius:1em;margin-bottom:1em;'>`;
+              }
+              html += `<div class='answers' style='width:100%;display:flex;flex-direction:column;align-items:center;'>`;
+              q.answers.forEach((ans, i) => {
+                html += `<button class='whatNextAnsBtn' data-idx='${i}' style='display:block;margin:0.7em 0;padding:0.9em 1.2em;border:none;border-radius:1.5em;background:#fff;color:#1976d2;font-size:1.1em;cursor:pointer;box-shadow:0 2px 8px #0001;transition:background 0.2s,transform 0.2s;width:100%;max-width:500px;'>${ans}</button>`;
+              });
+              html += `</div>`;
+              document.getElementById("whatNextQuizContent").innerHTML = html;
+              document.querySelectorAll(".whatNextAnsBtn").forEach((btn) => {
+                btn.onclick = function () {
+                  const idx = parseInt(this.getAttribute("data-idx"));
+                  // Mario Quiz style feedback
+                  btn.disabled = true;
+                  if (idx === q.correct) {
+                    whatNextScore++;
+                    this.style.background = "#39e66d";
+                    this.style.color = "#fff";
+                    let check = document.createElement("span");
+                    check.textContent = "✔";
+                    check.style.position = "absolute";
+                    check.style.right = "18px";
+                    check.style.top = "50%";
+                    check.style.transform = "translateY(-50%)";
+                    check.style.fontSize = "1.3em";
+                    check.style.color = "#fff";
+                    this.appendChild(check);
+                  } else {
+                    this.style.background = "#e63946";
+                    this.style.color = "#fff";
+                    let x = document.createElement("span");
+                    x.textContent = "✖";
+                    x.style.position = "absolute";
+                    x.style.right = "18px";
+                    x.style.top = "50%";
+                    x.style.transform = "translateY(-50%)";
+                    x.style.fontSize = "1.3em";
+                    x.style.color = "#fff";
+                    this.appendChild(x);
+                    // Show correct
+                    const btns = document.querySelectorAll(".whatNextAnsBtn");
+                    btns[q.correct].style.background = "#39e66d";
+                    btns[q.correct].style.color = "#fff";
+                    let check = document.createElement("span");
+                    check.textContent = "✔";
+                    check.style.position = "absolute";
+                    check.style.right = "18px";
+                    check.style.top = "50%";
+                    check.style.transform = "translateY(-50%)";
+                    check.style.fontSize = "1.3em";
+                    check.style.color = "#fff";
+                    btns[q.correct].appendChild(check);
+                  }
+                  // Animate like regular quiz
+                  this.style.transform = "scale(1.05)";
+                  setTimeout(() => {
+                    whatNextIndex++;
+                    if (whatNextIndex < whatNextQuestions.length) {
+                      renderWhatNextQuestion();
+                    } else {
+                      renderWhatNextResult();
+                    }
+                  }, 1200);
+                };
+              });
+            }
+            function renderWhatNextResult() {
+              document.getElementById(
+                "whatNextQuizContent"
+              ).innerHTML = `<div style='font-size:1.3em;color:#1976d2;text-shadow:0 1px 8px #fff8;margin-bottom:1em;text-align:center;'>You scored ${whatNextScore} out of ${whatNextQuestions.length}!</div><button id='playAgainWhatNext' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0001;border:none;cursor:pointer;transition:background 0.2s;'>Play Again</button>`;
+              document.getElementById("playAgainWhatNext").onclick = () => {
+                whatNextIndex = 0;
+                whatNextScore = 0;
+                renderWhatNextQuestion();
+              };
+            }
+            renderWhatNextQuestion();
+            document.getElementById("backToMenuBtn2").onclick = () => {
+              whatNextDiv.style.display = "none";
+              home.style.display = "flex";
+              showFooter();
+              // Restore Game Hub scroll
+              home.style.overflowY = "auto";
+            };
+            document.getElementById("restartWhatNextBtn").onclick = () => {
+              whatNextIndex = 0;
+              whatNextScore = 0;
+              renderWhatNextQuestion();
+            };
+          };
+        }
+
+        // Mario Coin Catcher game logic
+        const coinBtn = document.getElementById("startCoinCatcher");
+
+        if (coinBtn && home) {
+          coinBtn.onclick = () => {
+            hideFooter();
+            home.style.display = "none";
+            // Remove any previous coin game
+            let coinDiv = document.getElementById("coinCatcherContainer");
+            if (coinDiv) coinDiv.remove();
+            // Hide the main navbar for Coin Catcher
+            const mainNavbar = document.getElementById("mainNavbar");
+            if (mainNavbar) mainNavbar.style.display = "none";
+            // Add sidebar
+            let sidebar = document.getElementById("coinSidebar");
+            if (sidebar) sidebar.remove();
+            sidebar = document.createElement("div");
+            sidebar.id = "coinSidebar";
+            sidebar.style.position = "fixed";
+            sidebar.style.left = "0";
+            sidebar.style.top = "0";
+            sidebar.style.width = "80px";
+            sidebar.style.height = "100vh";
+            sidebar.style.display = "flex";
+            sidebar.style.flexDirection = "column";
+            sidebar.style.alignItems = "center";
+            sidebar.style.justifyContent = "flex-start";
+            sidebar.style.zIndex = "120";
+            sidebar.style.boxShadow = "2px 0 16px #0002";
+            sidebar.innerHTML = `<div style="margin-top:2em;font-size:2.2em;">👨‍🦱</div><div style="margin-top:2em;font-size:1.3em;color:#ffd600;text-shadow:0 1px 8px #fff8;writing-mode:vertical-lr;transform:rotate(180deg);">Mario</div><button id="backToMenuCoinBtn" style="margin-top:2em;padding:0.8em 2em;border-radius:1.5em;background:#ff9800;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;">Home</button>`;
+            document.body.appendChild(sidebar);
+            coinDiv = document.createElement("div");
+            coinDiv.id = "coinCatcherContainer";
+            coinDiv.className = "quiz-container";
+            coinDiv.style.display = "flex";
+            coinDiv.style.flexDirection = "column";
+            coinDiv.style.alignItems = "center";
+            coinDiv.style.justifyContent = "center";
+            coinDiv.style.width = "100vw";
+            coinDiv.style.minHeight = "100vh";
+            coinDiv.style.background = "none";
+            // Use theme background for the game area
+            let coinBg = "linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%)";
+            if (document.body.classList.contains("theme-mario"))
+              coinBg = "linear-gradient(120deg, #ffb3b3 0%, #e63946 100%)";
+            if (document.body.classList.contains("theme-luigi"))
+              coinBg = "linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%)";
+            if (document.body.classList.contains("theme-rosalina"))
+              coinBg = "linear-gradient(120deg, #e0f7fa 0%, #81d4fa 100%)";
+            coinDiv.innerHTML = `
+              <div id="coinGameArea" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:${coinBg};border-radius:0;box-shadow:none;overflow:hidden;border:none;z-index:110;"></div>
+            `;
+            document.body.appendChild(coinDiv);
+            // Mario Coin Catcher game logic
+            const area = document.getElementById("coinGameArea");
+            // Remove old status if present
+            let oldStatus = document.getElementById("coinGameStatus");
+            if (oldStatus) oldStatus.remove();
+            // Add time and coins display to top right and left
+            const timeDiv = document.createElement("div");
+            timeDiv.id = "coinTimeDisplay";
+            timeDiv.style.position = "absolute";
+            timeDiv.style.top = "18px";
+            timeDiv.style.right = "32px";
+            timeDiv.style.fontSize = "1.5em";
+            timeDiv.style.fontWeight = "bold";
+            timeDiv.style.color = "#e63946";
+            timeDiv.style.background = "rgba(255,255,255,0.7)";
+            timeDiv.style.padding = "0.3em 1em";
+            timeDiv.style.borderRadius = "1em";
+            timeDiv.style.boxShadow = "0 2px 8px #0001";
+            area.appendChild(timeDiv);
+            const coinsDiv = document.createElement("div");
+            coinsDiv.id = "coinScoreDisplay";
+            coinsDiv.style.position = "absolute";
+            coinsDiv.style.top = "18px";
+            coinsDiv.style.left = "32px";
+            coinsDiv.style.fontSize = "1.5em";
+            coinsDiv.style.fontWeight = "bold";
+            coinsDiv.style.color = "#ff9800";
+            coinsDiv.style.background = "rgba(255,255,255,0.7)";
+            coinsDiv.style.padding = "0.3em 1em";
+            coinsDiv.style.borderRadius = "1em";
+            coinsDiv.style.boxShadow = "0 2px 8px #0001";
+            area.appendChild(coinsDiv);
+            // Mario
+            // Dynamically set game area size
+            const gameAreaWidth = window.innerWidth - 80;
+            const gameAreaHeight = window.innerHeight;
+            let mario = {
+              x: Math.floor(gameAreaWidth / 2 - 30),
+              y: gameAreaHeight - 70,
+              w: 60,
+              h: 40,
+              dx: 0,
+            };
+
+            let items = [];
+            let score = 0;
+            let time = 60;
+            let running = true;
+            let lives = 3;
+            // Draw Mario, coins, goombas
+            function draw() {
+              // Remove all children except overlays (time, coins, lives)
+              Array.from(area.children).forEach((child) => {
+                if (
+                  ![
+                    "coinTimeDisplay",
+                    "coinScoreDisplay",
+                    "coinLivesDisplay",
+                  ].includes(child.id)
+                ) {
+                  area.removeChild(child);
+                }
+              });
+              // Remove overlays except lives (which is handled below)
+              area.querySelectorAll(".coinGameOverlay").forEach((e) => {
+                if (e.id !== "coinLivesDisplay") e.remove();
+              });
+              // Mario
+              const marioDiv = document.createElement("div");
+              marioDiv.style.position = "absolute";
+              marioDiv.style.left = mario.x + "px";
+              marioDiv.style.top = mario.y + "px";
+              marioDiv.style.width = mario.w + "px";
+              marioDiv.style.height = mario.h + "px";
+              marioDiv.style.fontSize = "2.2em";
+              marioDiv.style.textAlign = "center";
+              marioDiv.style.lineHeight = mario.h + "px";
+              marioDiv.textContent = "👨‍🦱";
+              area.appendChild(marioDiv);
+              // Items
+              items.forEach((item) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.style.position = "absolute";
+                itemDiv.style.left = item.x + "px";
+                itemDiv.style.top = item.y + "px";
+                itemDiv.style.width = "56px";
+                itemDiv.style.height = "56px";
+                itemDiv.style.display = "flex";
+                itemDiv.style.alignItems = "center";
+                itemDiv.style.justifyContent = "center";
+                if (item.type === "coin") {
+                  itemDiv.textContent = "🪙";
+                  itemDiv.style.fontSize = "2.2em";
+                } else if (item.type === "goomba") {
+                  const img = document.createElement("img");
+                  img.src = "img/Goomba.png";
+                  img.alt = "Goomba";
+                  img.style.width = "48px";
+                  img.style.height = "48px";
+                  img.style.display = "block";
+                  itemDiv.appendChild(img);
+                }
+                area.appendChild(itemDiv);
+              });
+              // Draw lives (bottom left)
+              let livesDiv = area.querySelector("#coinLivesDisplay");
+              if (!livesDiv) {
+                livesDiv = document.createElement("div");
+                livesDiv.id = "coinLivesDisplay";
+                livesDiv.className = "coinGameOverlay";
+                livesDiv.style.position = "absolute";
+                livesDiv.style.left = "50%";
+                livesDiv.style.top = "18px";
+                livesDiv.style.transform = "translateX(-50%)";
+                livesDiv.style.fontSize = "2em";
+                livesDiv.style.fontWeight = "bold";
+                livesDiv.style.color = "#e63946";
+                livesDiv.style.background = "rgba(255,255,255,0.7)";
+                livesDiv.style.padding = "0.3em 1em";
+                livesDiv.style.borderRadius = "1em";
+                livesDiv.style.boxShadow = "0 2px 8px #0001";
+                area.appendChild(livesDiv);
+              }
+              livesDiv.innerHTML =
+                "<span style='font-size:1.2em;'>👨‍🦱</span> " +
+                "❤️".repeat(lives) +
+                ' <span style="font-size:0.7em;color:#444;">x ' +
+                lives +
+                "</span>";
+              // Update overlays
+              document.getElementById(
+                "coinTimeDisplay"
+              ).textContent = `Time: ${time}s`;
+              document.getElementById(
+                "coinScoreDisplay"
+              ).innerHTML = `🪙 x ${score}`;
+            }
+            // Game loop
+            function gameLoop() {
+              if (!running) return;
+              // Move Mario
+              mario.x += mario.dx;
+              if (mario.x < 0) mario.x = 0;
+              if (mario.x > gameAreaWidth - mario.w)
+                mario.x = gameAreaWidth - mario.w;
+              // Move items
+              items.forEach((item) => {
+                item.y += item.speed;
+              });
+              // Remove off-screen
+              items = items.filter((item) => item.y < gameAreaHeight);
+              // Collision
+              items.forEach((item) => {
+                if (
+                  item.x < mario.x + mario.w &&
+                  item.x + 32 > mario.x &&
+                  item.y < mario.y + mario.h &&
+                  item.y + 32 > mario.y
+                ) {
+                  if (item.type === "coin") {
+                    score++;
+                    item.y = 9999;
+                  } else if (item.type === "goomba") {
+                    lives--;
+                    item.y = 9999;
+                    if (lives <= 0) {
+                      running = false;
+                      // Show game over overlay
+                      const over = document.createElement("div");
+                      over.className = "coinGameOverlay";
+                      over.style.position = "absolute";
+                      over.style.top = "50%";
+                      over.style.left = "50%";
+                      over.style.transform = "translate(-50%,-50%)";
+                      over.style.background = "rgba(255,255,255,0.95)";
+                      over.style.padding = "2em 3em";
+                      over.style.borderRadius = "2em";
+                      over.style.fontSize = "2em";
+                      over.style.color = "#e63946";
+                      over.style.textAlign = "center";
+                      over.style.boxShadow = "0 2px 16px #0002";
+                      over.innerHTML = `Game Over!<br>You ran out of lives.<br>Coins: ${score}`;
+                      area.appendChild(over);
+                    }
+                  }
+                }
+              });
+              draw();
+              if (running) requestAnimationFrame(gameLoop);
+            }
+            // Spawn items
+            function spawnItem() {
+              if (!running) return;
+              const type = Math.random() < 0.8 ? "coin" : "goomba";
+              const x = Math.floor(Math.random() * (gameAreaWidth - 32));
+              items.push({ x, y: -32, type, speed: 3 + Math.random() * 2 });
+              setTimeout(spawnItem, 500 + Math.random() * 600);
+            }
+            // Timer
+            function timerTick() {
+              if (!running) return;
+              time--;
+              document.getElementById(
+                "coinTimeDisplay"
+              ).textContent = `Time: ${time}s`;
+              if (time <= 0) {
+                running = false;
+                // Show time up overlay
+                const over = document.createElement("div");
+                over.className = "coinGameOverlay";
+                over.style.position = "absolute";
+                over.style.top = "50%";
+                over.style.left = "50%";
+                over.style.transform = "translate(-50%,-50%)";
+                over.style.background = "rgba(255,255,255,0.95)";
+                over.style.padding = "2em 3em";
+                over.style.borderRadius = "2em";
+                over.style.fontSize = "2em";
+                over.style.color = "#1976d2";
+                over.style.textAlign = "center";
+                over.style.boxShadow = "0 2px 16px #0002";
+                over.innerHTML = `Time's up!<br>You caught ${score} coins!`;
+                area.appendChild(over);
+              } else {
+                setTimeout(timerTick, 1000);
+              }
+            }
+            // Controls
+            function keydown(e) {
+              if (e.key === "ArrowLeft") mario.dx = -7;
+              if (e.key === "ArrowRight") mario.dx = 7;
+            }
+            function keyup(e) {
+              if (e.key === "ArrowLeft" || e.key === "ArrowRight") mario.dx = 0;
+            }
+            document.addEventListener("keydown", keydown);
+            document.addEventListener("keyup", keyup);
+            // Start game
+            draw();
+            setTimeout(spawnItem, 800);
+            setTimeout(timerTick, 1000);
+            requestAnimationFrame(gameLoop);
+            document.getElementById("backToMenuCoinBtn").onclick = () => {
+              coinDiv.style.display = "none";
+              // Remove sidebar
+              if (sidebar) sidebar.remove();
+              // Restore navbar
+              if (mainNavbar) mainNavbar.style.display = "flex";
+              home.style.display = "flex";
+              showFooter();
+              // Restore Game Hub scroll
+              home.style.overflowY = "auto";
+              document.removeEventListener("keydown", keydown);
+              document.removeEventListener("keyup", keyup);
+            };
+          };
+        }
+
+        // Word Scramble game logic
+
+        // Mario Word Scramble game logic
+        const scrambleBtn = document.getElementById("startWordScramble");
+
+        if (scrambleBtn && home) {
+          scrambleBtn.onclick = () => {
+            hideFooter();
+            home.style.display = "none";
+            // Remove any previous scramble game
+            let scrambleDiv = document.getElementById("scrambleContainer");
+            if (scrambleDiv) scrambleDiv.remove();
+            scrambleDiv = document.createElement("div");
+            scrambleDiv.id = "scrambleContainer";
+            scrambleDiv.style.display = "flex";
+            scrambleDiv.style.flexDirection = "column";
+            scrambleDiv.style.alignItems = "center";
+            scrambleDiv.style.justifyContent = "center";
+            scrambleDiv.style.minHeight = "80vh";
+            // Modern, visually appealing UI with theme-aware accent color
+            scrambleDiv.innerHTML = `
+              <div class="quiz-container" id="scrambleQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;">
+                <div style="width:100vw;max-width:700px;display:flex;justify-content:center;align-items:center;padding:1.2em 2em 0.5em 2em;margin:0 auto;">
+                  <button id="backToMenuScrambleBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;margin-right:auto;">← Home</button>
+                  <button id="restartScrambleBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:var(--scramble-accent,#39e66d);color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;margin-left:auto;">Restart</button>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:60vh;">
+                  <h2 id="scrambleTitle" style="font-size:2.3em;color:var(--scramble-accent,#39e66d);text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;margin-top:0.5em;letter-spacing:0.03em;text-align:center;">Mario Word Scramble</h2>
+                  <div id="scrambleQuizContent" style="width:100vw;max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;"></div>
+                </div>
+              </div>
+            `;
+            // Move the scramble container below the navbar
+            const navbar = document.querySelector(".navbar");
+            if (navbar && scrambleDiv.firstChild) {
+              document.body.insertBefore(scrambleDiv, navbar.nextSibling);
+            }
+            // Theme-aware accent color
+            function getScrambleAccent() {
+              if (document.body.classList.contains("theme-luigi"))
+                return "#226ac8"; // blue for Luigi
+              if (document.body.classList.contains("theme-rosalina"))
+                return "#00bcd4";
+              if (document.body.classList.contains("theme-mario"))
+                return "#e63946";
+              return "#39e66d"; // default green
+            }
+            // Modern, visually appealing input and card UI
+            let scrambleIndex = 0;
+            let scrambleScore = 0;
+            function renderScrambleQuestion() {
+              const q = scrambleWords[scrambleIndex];
+              const accent = getScrambleAccent();
+              let html = `<div style='font-size:1.3em;margin-bottom:1.2em;color:#222;text-shadow:0 1px 8px #fff8;text-align:center;'>Unscramble:</div>`;
+              html += `<div style="display:flex;align-items:center;justify-content:center;margin-bottom:1.2em;">
+                <span style="font-weight:bold;font-size:2.1em;color:${accent};letter-spacing:0.18em;background:rgba(255,255,255,0.7);border-radius:1em;padding:0.25em 1.1em;box-shadow:0 2px 8px #0001;">${q.scrambled}</span>
+              </div>`;
+              html += `<input id='scrambleInput' type='text' autocomplete='off' placeholder='Type your answer...' style='font-size:1.3em;padding:0.7em 1.2em;border-radius:1.2em;border:2px solid ${accent};margin-bottom:1.1em;width:90%;max-width:340px;text-align:center;outline:none;box-shadow:0 2px 8px #0001;background:rgba(255,255,255,0.95);transition:border 0.2s;'>`;
+              html += `<div id='scrambleStatus' style='min-height:1.7em;margin-bottom:1.2em;font-size:1.15em;color:#444;text-align:center;'></div>`;
+              html += `<button id='submitScrambleBtn' style='padding:0.8em 1.5em;border-radius:1.5em;background:${accent};color:#fff;font-size:1.15em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>`;
+              document.getElementById("scrambleQuizContent").innerHTML = html;
+              document.getElementById("scrambleInput").focus();
+              document.getElementById("submitScrambleBtn").onclick = () => {
+                const val = document
+                  .getElementById("scrambleInput")
+                  .value.trim()
+                  .toUpperCase();
+                if (val === q.answer) {
+                  scrambleScore++;
+                  document.getElementById("scrambleStatus").textContent =
+                    "Correct!";
+                  document.getElementById("scrambleStatus").style.color =
+                    accent;
+                  document.getElementById("scrambleInput").style.borderColor =
+                    accent;
+                  document.getElementById("scrambleInput").style.background =
+                    "#eaffea";
+                  setTimeout(() => {
+                    scrambleIndex++;
+                    if (scrambleIndex < scrambleWords.length) {
+                      renderScrambleQuestion();
+                    } else {
+                      renderScrambleResult();
+                    }
+                  }, 700);
+                } else {
+                  document.getElementById("scrambleStatus").textContent =
+                    "Try again!";
+                  document.getElementById("scrambleStatus").style.color =
+                    "#e63946";
+                  document.getElementById("scrambleInput").style.borderColor =
+                    "#e63946";
+                  document.getElementById("scrambleInput").style.background =
+                    "#fff0f0";
+                }
+              };
+              document.getElementById("scrambleInput").onkeydown = (e) => {
+                if (e.key === "Enter")
+                  document.getElementById("submitScrambleBtn").click();
+              };
+            }
+            function renderScrambleResult() {
+              const accent = getScrambleAccent();
+              document.getElementById(
+                "scrambleQuizContent"
+              ).innerHTML = `<div style='font-size:1.3em;color:${accent};text-shadow:0 1px 8px #fff8;margin-bottom:1em;text-align:center;'>You solved ${scrambleScore} out of ${scrambleWords.length}!</div><button id='playAgainScramble' style='padding:0.8em 1.5em;border-radius:1.5em;background:${accent};color:#fff;font-size:1.1em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Play Again</button>`;
+              document.getElementById("playAgainScramble").onclick = () => {
+                scrambleIndex = 0;
+                scrambleScore = 0;
+                renderScrambleQuestion();
+              };
+            }
+            renderScrambleQuestion();
+            document.getElementById("backToMenuScrambleBtn").onclick = () => {
+              scrambleDiv.style.display = "none";
+              home.style.display = "flex";
+              showFooter();
+              home.style.overflowY = "auto";
+            };
+            document.getElementById("restartScrambleBtn").onclick = () => {
+              scrambleIndex = 0;
+              scrambleScore = 0;
+              renderScrambleQuestion();
+            };
+            // Set accent color CSS var for the modal (for h2 and restart button)
+            const accent = getScrambleAccent();
+            document
+              .getElementById("scrambleQuizStyled")
+              .style.setProperty("--scramble-accent", accent);
+            document.getElementById("scrambleTitle").style.color = accent;
+          };
+        }
+        // Hide quiz by default, show home
+        if (quiz && home) {
+          quiz.style.display = "none";
+          home.style.display = "flex";
+        }
+      });
+    </script>
+  </body>
+</html>
