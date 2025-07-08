@@ -117,7 +117,7 @@ function showQuestion() {
   let html = `<div class="quiz-theme-bg" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;position:relative;background:${
     t.bg
   };overflow-x:hidden;">
-      <div class="quiz-container" id="quizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
+      <div class="quiz-container" id="quizStyled" style="display:flex;flex-direction:column;align-items:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
         <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;max-width:700px;">
           <button onclick=\"goBackToMenu()\" style=\"padding:0.6em 1.5em;border-radius:1.5em;background:${
             t.btn
@@ -141,7 +141,7 @@ function showQuestion() {
 `;
   if (q.silhouette) {
     html += `<div style='display:flex;flex-direction:column;align-items:center;margin-bottom:1.2em;'>
-            <img src='img/silhouette-1.png' alt='Silhouette' style='display:block;margin:0 auto 0.5em auto;width:220px; height:220px;filter:drop-shadow(0 4px 16px #0003);border-radius:1em;background:#fff;'>
+            <img src='img/silhouette-1.png' alt='Silhouette' style='display:block;margin:0 auto 0.5em auto;width:180px; height:180px;filter:drop-shadow(0 4px 16px #0003);border-radius:1em;background:#fff;'>
             <div style='font-size:1.2em;color:#222;background:rgba(255,255,255,0.85);border-radius:1em;padding:0.5em 1.2em;box-shadow:0 2px 8px #0001;margin-top:0.5em;text-align:center;'>Who is this character?</div>
         </div>`;
   }

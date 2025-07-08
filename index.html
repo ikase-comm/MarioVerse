@@ -521,10 +521,10 @@
       >
         The MarioVerse
         <span class="luigi-accent" style="display: none; margin-left: 0.5em"
-          >Luigi!</span
+          > </span
         >
         <span class="rosalina-accent" style="display: none; margin-left: 0.5em"
-          >Rosalina!</span
+          > </span
         >
       </div>
 
@@ -1292,7 +1292,7 @@
             // Use Mario Quiz style for What Happens Next quiz
             whatNextDiv.innerHTML = `
               <div class="quiz-theme-bg" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;position:relative;background:#f7f6f2;overflow-x:hidden;">
-                <div class="quiz-container" id="whatNextQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
+                <div class="quiz-container" id="whatNextQuizStyled" style="display:flex;flex-direction:column;align-items:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
                   <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;max-width:700px;">
                     <button id="backToMenuBtn2" style="padding:0.6em 1.5em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;">← Home</button>
                     <button id="restartWhatNextBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:#1976d2;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;">Restart Quiz</button>
@@ -1462,15 +1462,23 @@
             sidebar.style.position = "fixed";
             sidebar.style.left = "0";
             sidebar.style.top = "0";
-            sidebar.style.width = "80px";
+            sidebar.style.width = "90px";
             sidebar.style.height = "100vh";
             sidebar.style.display = "flex";
             sidebar.style.flexDirection = "column";
             sidebar.style.alignItems = "center";
             sidebar.style.justifyContent = "flex-start";
             sidebar.style.zIndex = "120";
+            sidebar.style.background = "#fff";
             sidebar.style.boxShadow = "2px 0 16px #0002";
-            sidebar.innerHTML = `<div style="margin-top:2em;font-size:2.2em;">👨‍🦱</div><div style="margin-top:2em;font-size:1.3em;color:#ffd600;text-shadow:0 1px 8px #fff8;writing-mode:vertical-lr;transform:rotate(180deg);">Mario</div><button id="backToMenuCoinBtn" style="margin-top:2em;padding:0.8em 2em;border-radius:1.5em;background:#ff9800;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;">Home</button>`;
+            sidebar.innerHTML = `
+              <div style=\"margin-top:2.5em;margin-bottom:1.5em;\"></div>
+              <button id=\"backToMenuCoinBtn\" title=\"Home\" style=\"margin-top:auto;margin-bottom:2.5em;padding:0.7em 0.7em;border-radius:50%;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:2em;width:56px;height:56px;\">
+                <span style=\"display:inline-block;width:28px;height:28px;line-height:28px;\">
+                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='#222' width='28' height='28'><path d='M10.707 2.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1-1.414 1.414L20 12.414V20a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-4h-2v4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2v-7.586l-0.707 0.707A1 1 0 0 1 1.879 11.293l9-9z'/></svg>
+                </span>
+              </button>
+            `;
             document.body.appendChild(sidebar);
             coinDiv = document.createElement("div");
             coinDiv.id = "coinCatcherContainer";
@@ -1490,265 +1498,326 @@
               coinBg = "linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%)";
             if (document.body.classList.contains("theme-rosalina"))
               coinBg = "linear-gradient(120deg, #e0f7fa 0%, #81d4fa 100%)";
+            // Restore the game area to full size (not under sidebar)
             coinDiv.innerHTML = `
-              <div id="coinGameArea" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:${coinBg};border-radius:0;box-shadow:none;overflow:hidden;border:none;z-index:110;"></div>
+              <div id="coinGameArea" style="position:fixed;top:0;left:90px;width:calc(100vw - 90px);height:100vh;background:${coinBg};border-radius:0;box-shadow:none;overflow:hidden;border:none;z-index:110;"></div>
             `;
-            document.body.appendChild(coinDiv);
-            // Mario Coin Catcher game logic
-            const area = document.getElementById("coinGameArea");
-            // Remove old status if present
-            let oldStatus = document.getElementById("coinGameStatus");
-            if (oldStatus) oldStatus.remove();
-            // Add time and coins display to top right and left
-            const timeDiv = document.createElement("div");
-            timeDiv.id = "coinTimeDisplay";
-            timeDiv.style.position = "absolute";
-            timeDiv.style.top = "18px";
-            timeDiv.style.right = "32px";
-            timeDiv.style.fontSize = "1.5em";
-            timeDiv.style.fontWeight = "bold";
-            timeDiv.style.color = "#e63946";
-            timeDiv.style.background = "rgba(255,255,255,0.7)";
-            timeDiv.style.padding = "0.3em 1em";
-            timeDiv.style.borderRadius = "1em";
-            timeDiv.style.boxShadow = "0 2px 8px #0001";
-            area.appendChild(timeDiv);
-            const coinsDiv = document.createElement("div");
-            coinsDiv.id = "coinScoreDisplay";
-            coinsDiv.style.position = "absolute";
-            coinsDiv.style.top = "18px";
-            coinsDiv.style.left = "32px";
-            coinsDiv.style.fontSize = "1.5em";
-            coinsDiv.style.fontWeight = "bold";
-            coinsDiv.style.color = "#ff9800";
-            coinsDiv.style.background = "rgba(255,255,255,0.7)";
-            coinsDiv.style.padding = "0.3em 1em";
-            coinsDiv.style.borderRadius = "1em";
-            coinsDiv.style.boxShadow = "0 2px 8px #0001";
-            area.appendChild(coinsDiv);
-            // Mario
-            // Dynamically set game area size
-            const gameAreaWidth = window.innerWidth - 80;
-            const gameAreaHeight = window.innerHeight;
-            let mario = {
-              x: Math.floor(gameAreaWidth / 2 - 30),
-              y: gameAreaHeight - 70,
-              w: 60,
-              h: 40,
-              dx: 0,
-            };
-
-            let items = [];
-            let score = 0;
-            let time = 60;
-            let running = true;
-            let lives = 3;
-            // Draw Mario, coins, goombas
-            function draw() {
-              // Remove all children except overlays (time, coins, lives)
-              Array.from(area.children).forEach((child) => {
-                if (
-                  ![
-                    "coinTimeDisplay",
-                    "coinScoreDisplay",
-                    "coinLivesDisplay",
-                  ].includes(child.id)
-                ) {
-                  area.removeChild(child);
-                }
-              });
-              // Remove overlays except lives (which is handled below)
-              area.querySelectorAll(".coinGameOverlay").forEach((e) => {
-                if (e.id !== "coinLivesDisplay") e.remove();
-              });
-              // Mario
-              const marioDiv = document.createElement("div");
-              marioDiv.style.position = "absolute";
-              marioDiv.style.left = mario.x + "px";
-              marioDiv.style.top = mario.y + "px";
-              marioDiv.style.width = mario.w + "px";
-              marioDiv.style.height = mario.h + "px";
-              marioDiv.style.fontSize = "2.2em";
-              marioDiv.style.textAlign = "center";
-              marioDiv.style.lineHeight = mario.h + "px";
-              marioDiv.textContent = "👨‍🦱";
-              area.appendChild(marioDiv);
-              // Items
-              items.forEach((item) => {
-                const itemDiv = document.createElement("div");
-                itemDiv.style.position = "absolute";
-                itemDiv.style.left = item.x + "px";
-                itemDiv.style.top = item.y + "px";
-                itemDiv.style.width = "56px";
-                itemDiv.style.height = "56px";
-                itemDiv.style.display = "flex";
-                itemDiv.style.alignItems = "center";
-                itemDiv.style.justifyContent = "center";
-                if (item.type === "coin") {
-                  itemDiv.textContent = "🪙";
-                  itemDiv.style.fontSize = "2.2em";
-                } else if (item.type === "goomba") {
-                  const img = document.createElement("img");
-                  img.src = "img/Goomba.png";
-                  img.alt = "Goomba";
-                  img.style.width = "48px";
-                  img.style.height = "48px";
-                  img.style.display = "block";
-                  itemDiv.appendChild(img);
-                }
-                area.appendChild(itemDiv);
-              });
-              // Draw lives (bottom left)
-              let livesDiv = area.querySelector("#coinLivesDisplay");
-              if (!livesDiv) {
-                livesDiv = document.createElement("div");
-                livesDiv.id = "coinLivesDisplay";
-                livesDiv.className = "coinGameOverlay";
-                livesDiv.style.position = "absolute";
-                livesDiv.style.left = "50%";
-                livesDiv.style.top = "18px";
-                livesDiv.style.transform = "translateX(-50%)";
-                livesDiv.style.fontSize = "2em";
-                livesDiv.style.fontWeight = "bold";
-                livesDiv.style.color = "#e63946";
-                livesDiv.style.background = "rgba(255,255,255,0.7)";
-                livesDiv.style.padding = "0.3em 1em";
-                livesDiv.style.borderRadius = "1em";
-                livesDiv.style.boxShadow = "0 2px 8px #0001";
-                area.appendChild(livesDiv);
+            // Show a modal with instructions before starting, and only start the game after modal is closed
+            setTimeout(() => {
+              if (!document.getElementById('coinGameStartModal')) {
+                const modal = document.createElement('div');
+                modal.id = 'coinGameStartModal';
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100vw';
+                modal.style.height = '100vh';
+                modal.style.background = 'rgba(30,30,60,0.25)';
+                modal.style.zIndex = '99999';
+                modal.style.display = 'flex';
+                modal.style.alignItems = 'center';
+                modal.style.justifyContent = 'center';
+                modal.innerHTML = `
+                  <div style='background:linear-gradient(135deg,#ffd600 60%,#ff9800 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:20vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
+                    <h2 style='font-size:2.1em;color:#ff9800;text-shadow:2px 2px 0 #fff176;margin-bottom:0.7em;'>How to Play</h2>
+                    <div style='font-size:1.3em;color:#222;margin-bottom:1.2em;text-align:center;'>Use the <b>Left</b> and <b>Right</b> arrow keys on your keyboard to move Mario.<br>Catch coins, avoid Goombas!</div>
+                    <button id='coinGameStartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Start Game</button>
+                  </div>
+                `;
+                document.body.appendChild(modal);
+                document.getElementById('coinGameStartBtn').onclick = function() {
+                  modal.remove();
+                  startCoinCatcherGame();
+                };
               }
-              livesDiv.innerHTML =
-                "<span style='font-size:1.2em;'>👨‍🦱</span> " +
-                "❤️".repeat(lives) +
-                ' <span style="font-size:0.7em;color:#444;">x ' +
-                lives +
-                "</span>";
-              // Update overlays
-              document.getElementById(
-                "coinTimeDisplay"
-              ).textContent = `Time: ${time}s`;
-              document.getElementById(
-                "coinScoreDisplay"
-              ).innerHTML = `🪙 x ${score}`;
-            }
-            // Game loop
-            function gameLoop() {
-              if (!running) return;
-              // Move Mario
-              mario.x += mario.dx;
-              if (mario.x < 0) mario.x = 0;
-              if (mario.x > gameAreaWidth - mario.w)
-                mario.x = gameAreaWidth - mario.w;
-              // Move items
-              items.forEach((item) => {
-                item.y += item.speed;
-              });
-              // Remove off-screen
-              items = items.filter((item) => item.y < gameAreaHeight);
-              // Collision
-              items.forEach((item) => {
-                if (
-                  item.x < mario.x + mario.w &&
-                  item.x + 32 > mario.x &&
-                  item.y < mario.y + mario.h &&
-                  item.y + 32 > mario.y
-                ) {
+            }, 0);
+            document.body.appendChild(coinDiv);
+
+            // All Coin Catcher game logic is now in a function, only called after modal is closed
+            function startCoinCatcherGame() {
+              const area = document.getElementById("coinGameArea");
+              // Remove old status if present
+              let oldStatus = document.getElementById("coinGameStatus");
+              if (oldStatus) oldStatus.remove();
+              // Add time display to top right and coin counter to top center
+              const timeDiv = document.createElement("div");
+              timeDiv.id = "coinTimeDisplay";
+              timeDiv.style.position = "absolute";
+              timeDiv.style.top = "18px";
+              timeDiv.style.right = "32px";
+              timeDiv.style.fontSize = "1.5em";
+              timeDiv.style.fontWeight = "bold";
+              timeDiv.style.color = "#e63946";
+              timeDiv.style.background = "rgba(255,255,255,0.7)";
+              timeDiv.style.padding = "0.3em 1em";
+              timeDiv.style.borderRadius = "1em";
+              timeDiv.style.boxShadow = "0 2px 8px #0001";
+              area.appendChild(timeDiv);
+              const coinsDiv = document.createElement("div");
+              coinsDiv.id = "coinScoreDisplay";
+              coinsDiv.style.position = "absolute";
+              coinsDiv.style.top = "18px";
+              coinsDiv.style.left = "15%";
+              coinsDiv.style.transform = "translateX(-50%)";
+              coinsDiv.style.display = "flex";
+              coinsDiv.style.alignItems = "center";
+              coinsDiv.style.gap = "0.5em";
+              coinsDiv.style.fontSize = "1.5em";
+              coinsDiv.style.fontWeight = "bold";
+              coinsDiv.style.color = "#ff9800";
+              coinsDiv.style.background = "rgba(255,255,255,0.7)";
+              coinsDiv.style.padding = "0.3em 1em";
+              coinsDiv.style.borderRadius = "1em";
+              coinsDiv.style.boxShadow = "0 2px 8px #0001";
+              coinsDiv.innerHTML = `<img src='img/Coin.png' alt='Coin' style='width:32px;height:32px;vertical-align:middle;margin-right:0.3em;'> x <span id='coinScoreText'>0</span>`;
+              area.appendChild(coinsDiv);
+              // Mario
+              // Dynamically set game area size
+              const gameAreaWidth = window.innerWidth - 90;
+              const gameAreaHeight = window.innerHeight;
+              let mario = {
+                x: Math.floor(gameAreaWidth / 2 - 30),
+                y: gameAreaHeight - 70,
+                w: 60,
+                h: 40,
+                dx: 0,
+              };
+
+              let items = [];
+              let score = 0;
+              let time = 60;
+              let running = true;
+              let lives = 3;
+              // Draw Mario, coins, goombas
+              function draw() {
+                // Remove all children except overlays (time, coins, lives)
+                Array.from(area.children).forEach((child) => {
+                  if (
+                    ![
+                      "coinTimeDisplay",
+                      "coinScoreDisplay",
+                      "coinLivesDisplay",
+                    ].includes(child.id)
+                  ) {
+                    area.removeChild(child);
+                  }
+                });
+                // Remove overlays except lives (which is handled below)
+                area.querySelectorAll(".coinGameOverlay").forEach((e) => {
+                  if (e.id !== "coinLivesDisplay") e.remove();
+                });
+                // Mario
+                const marioDiv = document.createElement("div");
+                marioDiv.style.position = "absolute";
+                marioDiv.style.left = mario.x + "px";
+                marioDiv.style.top = mario.y + "px";
+                marioDiv.style.width = mario.w + "px";
+                marioDiv.style.height = mario.h + "px";
+                marioDiv.style.fontSize = "2.2em";
+                marioDiv.style.textAlign = "center";
+                marioDiv.style.lineHeight = mario.h + "px";
+                marioDiv.textContent = "👨‍🦱";
+                area.appendChild(marioDiv);
+                // Items
+                items.forEach((item) => {
+                  const itemDiv = document.createElement("div");
+                  itemDiv.style.position = "absolute";
+                  itemDiv.style.left = item.x + "px";
+                  itemDiv.style.top = item.y + "px";
+                  itemDiv.style.width = "56px";
+                  itemDiv.style.height = "56px";
+                  itemDiv.style.display = "flex";
+                  itemDiv.style.alignItems = "center";
+                  itemDiv.style.justifyContent = "center";
                   if (item.type === "coin") {
-                    score++;
-                    item.y = 9999;
+                    const img = document.createElement("img");
+                    img.src = "img/Coin.png";
+                    img.alt = "Coin";
+                    img.style.width = "48px";
+                    img.style.height = "48px";
+                    img.style.display = "block";
+                    itemDiv.appendChild(img);
                   } else if (item.type === "goomba") {
-                    lives--;
-                    item.y = 9999;
-                    if (lives <= 0) {
-                      running = false;
-                      // Show game over overlay
-                      const over = document.createElement("div");
-                      over.className = "coinGameOverlay";
-                      over.style.position = "absolute";
-                      over.style.top = "50%";
-                      over.style.left = "50%";
-                      over.style.transform = "translate(-50%,-50%)";
-                      over.style.background = "rgba(255,255,255,0.95)";
-                      over.style.padding = "2em 3em";
-                      over.style.borderRadius = "2em";
-                      over.style.fontSize = "2em";
-                      over.style.color = "#e63946";
-                      over.style.textAlign = "center";
-                      over.style.boxShadow = "0 2px 16px #0002";
-                      over.innerHTML = `Game Over!<br>You ran out of lives.<br>Coins: ${score}`;
-                      area.appendChild(over);
+                    const img = document.createElement("img");
+                    img.src = "img/Goomba.png";
+                    img.alt = "Goomba";
+                    img.style.width = "48px";
+                    img.style.height = "48px";
+                    img.style.display = "block";
+                    itemDiv.appendChild(img);
+                  }
+                  area.appendChild(itemDiv);
+                });
+                // Draw lives (bottom left)
+                let livesDiv = area.querySelector("#coinLivesDisplay");
+                if (!livesDiv) {
+                  livesDiv = document.createElement("div");
+                  livesDiv.id = "coinLivesDisplay";
+                  livesDiv.className = "coinGameOverlay";
+                  livesDiv.style.position = "absolute";
+                  livesDiv.style.left = "50%";
+                  livesDiv.style.top = "18px";
+                  livesDiv.style.transform = "translateX(-50%)";
+                  livesDiv.style.fontSize = "2em";
+                  livesDiv.style.fontWeight = "bold";
+                  livesDiv.style.color = "#e63946";
+                  livesDiv.style.background = "rgba(255,255,255,0.7)";
+                  livesDiv.style.padding = "0.3em 1em";
+                  livesDiv.style.borderRadius = "1em";
+                  livesDiv.style.boxShadow = "0 2px 8px #0001";
+                  area.appendChild(livesDiv);
+                }
+                livesDiv.innerHTML =
+                  "<span style='font-size:1.2em;'>👨‍🦱</span> " +
+                  "❤️".repeat(lives) +
+                  ' <span style="font-size:0.7em;color:#444;">x ' +
+                  lives +
+                  "</span>";
+                // Update overlays
+                document.getElementById(
+                  "coinTimeDisplay"
+                ).textContent = `Time: ${time}s`;
+                const coinScoreText = document.getElementById("coinScoreText");
+                if (coinScoreText) coinScoreText.textContent = score;
+              }
+              // Game loop and modal logic
+              let coinHighScore = 0;
+              function showCoinGameModal(message, score) {
+                if (score > coinHighScore) coinHighScore = score;
+                let modal = document.createElement("div");
+                modal.className = "coinGameOverlay";
+                modal.style.position = "fixed";
+                modal.style.top = "0";
+                modal.style.left = "0";
+                modal.style.width = "100vw";
+                modal.style.height = "100vh";
+                modal.style.background = "rgba(30,30,60,0.25)";
+                modal.style.zIndex = "99999";
+                modal.style.display = "flex";
+                modal.style.alignItems = "center";
+                modal.style.justifyContent = "center";
+                modal.innerHTML = `
+                  <div style='background:linear-gradient(135deg,#ffd600 60%,#ff9800 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:30vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
+                    <h2 style='font-size:2.3em;color:#ff9800;text-shadow:2px 2px 0 #fff176;margin-bottom:0.7em;'>${message}</h2>
+                    <div style='font-size:1.5em;color:#222;margin-bottom:1.2em;'>Coins: <b>${score}</b><br>High Score: <b>${coinHighScore}</b></div>
+                    <div style='display:flex;gap:1.5em;'>
+                      <button id='coinGameExitBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Exit Game</button>
+                      <button id='coinGameRestartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#39e66d;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Restart</button>
+                    </div>
+                  </div>
+                `;
+                document.body.appendChild(modal);
+                document.getElementById("coinGameExitBtn").onclick = function () {
+                  coinDiv.style.display = "none";
+                  if (sidebar) sidebar.remove();
+                  if (mainNavbar) mainNavbar.style.display = "flex";
+                  home.style.display = "flex";
+                  showFooter();
+                  home.style.overflowY = "auto";
+                  document.removeEventListener("keydown", keydown);
+                  document.removeEventListener("keyup", keyup);
+                  document.body.removeChild(modal);
+                };
+                document.getElementById("coinGameRestartBtn").onclick = function () {
+                  document.body.removeChild(modal);
+                  coinDiv.style.display = "none";
+                  if (sidebar) sidebar.remove();
+                  if (mainNavbar) mainNavbar.style.display = "flex";
+                  home.style.display = "flex";
+                  showFooter();
+                  home.style.overflowY = "auto";
+                  document.removeEventListener("keydown", keydown);
+                  document.removeEventListener("keyup", keyup);
+                  // Restart game
+                  coinBtn.click();
+                };
+              }
+              function gameLoop() {
+                if (!running) return;
+                // Move Mario
+                mario.x += mario.dx;
+                if (mario.x < 0) mario.x = 0;
+                if (mario.x > gameAreaWidth - mario.w)
+                  mario.x = gameAreaWidth - mario.w;
+                // Move items
+                items.forEach((item) => {
+                  item.y += item.speed;
+                });
+                // Remove off-screen
+                items = items.filter((item) => item.y < gameAreaHeight);
+                // Collision
+                items.forEach((item) => {
+                  if (
+                    item.x < mario.x + mario.w &&
+                    item.x + 32 > mario.x &&
+                    item.y < mario.y + mario.h &&
+                    item.y + 32 > mario.y
+                  ) {
+                    if (item.type === "coin") {
+                      score++;
+                      item.y = 9999;
+                    } else if (item.type === "goomba") {
+                      lives--;
+                      item.y = 9999;
+                      if (lives <= 0) {
+                        running = false;
+                        setTimeout(() => showCoinGameModal("Game Over!", score), 400);
+                      }
                     }
                   }
-                }
-              });
-              draw();
-              if (running) requestAnimationFrame(gameLoop);
-            }
-            // Spawn items
-            function spawnItem() {
-              if (!running) return;
-              const type = Math.random() < 0.8 ? "coin" : "goomba";
-              const x = Math.floor(Math.random() * (gameAreaWidth - 32));
-              items.push({ x, y: -32, type, speed: 3 + Math.random() * 2 });
-              setTimeout(spawnItem, 500 + Math.random() * 600);
-            }
-            // Timer
-            function timerTick() {
-              if (!running) return;
-              time--;
-              document.getElementById(
-                "coinTimeDisplay"
-              ).textContent = `Time: ${time}s`;
-              if (time <= 0) {
-                running = false;
-                // Show time up overlay
-                const over = document.createElement("div");
-                over.className = "coinGameOverlay";
-                over.style.position = "absolute";
-                over.style.top = "50%";
-                over.style.left = "50%";
-                over.style.transform = "translate(-50%,-50%)";
-                over.style.background = "rgba(255,255,255,0.95)";
-                over.style.padding = "2em 3em";
-                over.style.borderRadius = "2em";
-                over.style.fontSize = "2em";
-                over.style.color = "#1976d2";
-                over.style.textAlign = "center";
-                over.style.boxShadow = "0 2px 16px #0002";
-                over.innerHTML = `Time's up!<br>You caught ${score} coins!`;
-                area.appendChild(over);
-              } else {
-                setTimeout(timerTick, 1000);
+                });
+                draw();
+                if (running) requestAnimationFrame(gameLoop);
               }
+              // Spawn items
+              function spawnItem() {
+                if (!running) return;
+                const type = Math.random() < 0.8 ? "coin" : "goomba";
+                const x = Math.floor(Math.random() * (gameAreaWidth - 32));
+                items.push({ x, y: -32, type, speed: 3 + Math.random() * 2 });
+                setTimeout(spawnItem, 500 + Math.random() * 600);
+              }
+              // Timer
+              function timerTick() {
+                if (!running) return;
+                time--;
+                document.getElementById("coinTimeDisplay").textContent = `Time: ${time}s`;
+                if (time <= 0) {
+                  running = false;
+                  setTimeout(() => showCoinGameModal("Time's up!", score), 400);
+                } else {
+                  setTimeout(timerTick, 1000);
+                }
+              }
+              // Controls
+              function keydown(e) {
+                if (e.key === "ArrowLeft") mario.dx = -7;
+                if (e.key === "ArrowRight") mario.dx = 7;
+              }
+              function keyup(e) {
+                if (e.key === "ArrowLeft" || e.key === "ArrowRight") mario.dx = 0;
+              }
+              document.addEventListener("keydown", keydown);
+              document.addEventListener("keyup", keyup);
+              // Start game
+              draw();
+              setTimeout(spawnItem, 800);
+              setTimeout(timerTick, 1000);
+              requestAnimationFrame(gameLoop);
+              document.getElementById("backToMenuCoinBtn").onclick = () => {
+                coinDiv.style.display = "none";
+                // Remove sidebar
+                if (sidebar) sidebar.remove();
+                // Restore navbar
+                if (mainNavbar) mainNavbar.style.display = "flex";
+                home.style.display = "flex";
+                showFooter();
+                // Restore Game Hub scroll
+                home.style.overflowY = "auto";
+                document.removeEventListener("keydown", keydown);
+                document.removeEventListener("keyup", keyup);
+              };
             }
-            // Controls
-            function keydown(e) {
-              if (e.key === "ArrowLeft") mario.dx = -7;
-              if (e.key === "ArrowRight") mario.dx = 7;
-            }
-            function keyup(e) {
-              if (e.key === "ArrowLeft" || e.key === "ArrowRight") mario.dx = 0;
-            }
-            document.addEventListener("keydown", keydown);
-            document.addEventListener("keyup", keyup);
-            // Start game
-            draw();
-            setTimeout(spawnItem, 800);
-            setTimeout(timerTick, 1000);
-            requestAnimationFrame(gameLoop);
-            document.getElementById("backToMenuCoinBtn").onclick = () => {
-              coinDiv.style.display = "none";
-              // Remove sidebar
-              if (sidebar) sidebar.remove();
-              // Restore navbar
-              if (mainNavbar) mainNavbar.style.display = "flex";
-              home.style.display = "flex";
-              showFooter();
-              // Restore Game Hub scroll
-              home.style.overflowY = "auto";
-              document.removeEventListener("keydown", keydown);
-              document.removeEventListener("keyup", keyup);
-            };
           };
         }
 
@@ -1771,16 +1840,16 @@
             scrambleDiv.style.alignItems = "center";
             scrambleDiv.style.justifyContent = "center";
             scrambleDiv.style.minHeight = "80vh";
-            // Modern, visually appealing UI with theme-aware accent color
+            // Modern, visually appealing UI with theme-aware accent color, Luigi Green compatibility, and no gradients
             scrambleDiv.innerHTML = `
-              <div class="quiz-container" id="scrambleQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;">
+              <div class="quiz-container" id="scrambleQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:#fffefb;border-radius:1.5em;box-shadow:0 8px 32px #b6ffb055;padding:2em 0 2.5em 0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid #ffd600;">
                 <div style="width:100vw;max-width:700px;display:flex;justify-content:center;align-items:center;padding:1.2em 2em 0.5em 2em;margin:0 auto;">
-                  <button id="backToMenuScrambleBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;margin-right:auto;">← Home</button>
-                  <button id="restartScrambleBtn" style="padding:0.6em 1.5em;border-radius:1.5em;background:var(--scramble-accent,#39e66d);color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;margin-left:auto;">Restart</button>
+                  <button id="backToMenuScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;margin-right:auto;transition:background 0.2s;">← Home</button>
+                  <button id="restartScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:var(--scramble-accent,#39e66d);color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;margin-left:auto;transition:background 0.2s;">Restart</button>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:60vh;">
-                  <h2 id="scrambleTitle" style="font-size:2.3em;color:var(--scramble-accent,#39e66d);text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;margin-top:0.5em;letter-spacing:0.03em;text-align:center;">Mario Word Scramble</h2>
-                  <div id="scrambleQuizContent" style="width:100vw;max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;"></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;width:100vw;min-height:60vh;">
+                  <h2 id="scrambleTitle" style="font-size:2.8em;color:var(--scramble-accent,#39e66d);text-shadow:2px 2px 0 #ffd600, 0 2px 8px #fff8;margin-bottom:1.2em;margin-top:0.5em;letter-spacing:0.08em;text-align:center;font-family:'Comic Sans MS','Comic Sans','Arial Rounded MT Bold',cursive;">Mario <span style='color:#3ad029;'>Word</span> <span style='color:#226ac8;'>Scramble</span></h2>
+                  <div id="scrambleQuizContent" style="width:100vw;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;"></div>
                 </div>
               </div>
             `;
@@ -1792,45 +1861,102 @@
             // Theme-aware accent color
             function getScrambleAccent() {
               if (document.body.classList.contains("theme-luigi"))
-                return "#226ac8"; // blue for Luigi
+                return "#3ad029"; // Luigi green
               if (document.body.classList.contains("theme-rosalina"))
                 return "#00bcd4";
               if (document.body.classList.contains("theme-mario"))
                 return "#e63946";
               return "#39e66d"; // default green
             }
-            // Modern, visually appealing input and card UI
+            // Modern, visually appealing input and card UI with further improvements
             let scrambleIndex = 0;
             let scrambleScore = 0;
+            let scrambleStreak = 0;
+            let scrambleHintUsed = false;
+            let scrambleStartTime = 0;
+            let scrambleTimes = [];
+            function animateShake(el) {
+              el.style.animation = "shake 0.4s";
+              el.addEventListener("animationend", function handler() {
+                el.style.animation = "";
+                el.removeEventListener("animationend", handler);
+              });
+            }
+            function getHint(answer) {
+              // Reveal first and last letter, mask the rest
+              if (answer.length <= 2) return answer;
+              return (
+                answer[0] +
+                "_".repeat(answer.length - 2) +
+                answer[answer.length - 1]
+              );
+            }
             function renderScrambleQuestion() {
               const q = scrambleWords[scrambleIndex];
               const accent = getScrambleAccent();
-              let html = `<div style='font-size:1.3em;margin-bottom:1.2em;color:#222;text-shadow:0 1px 8px #fff8;text-align:center;'>Unscramble:</div>`;
+            let html = `<div style='font-size:1.35em;margin-bottom:1.2em;color:${accent};text-shadow:0 1px 8px #fff8;text-align:center;font-weight:bold;letter-spacing:0.04em;'>Unscramble the Mario word!</div>`;
               html += `<div style="display:flex;align-items:center;justify-content:center;margin-bottom:1.2em;">
-                <span style="font-weight:bold;font-size:2.1em;color:${accent};letter-spacing:0.18em;background:rgba(255,255,255,0.7);border-radius:1em;padding:0.25em 1.1em;box-shadow:0 2px 8px #0001;">${q.scrambled}</span>
+                <span id="scrambleWord" style="font-weight:bold;font-size:2.3em;color:${accent};letter-spacing:0.22em;background:#fffefb;border:3px solid #ffd600;border-radius:1.2em;padding:0.32em 1.3em;box-shadow:0 4px 16px #0001,0 0 0 4px #ffd60033;transition:background 0.3s;">${q.scrambled}</span>
               </div>`;
-              html += `<input id='scrambleInput' type='text' autocomplete='off' placeholder='Type your answer...' style='font-size:1.3em;padding:0.7em 1.2em;border-radius:1.2em;border:2px solid ${accent};margin-bottom:1.1em;width:90%;max-width:340px;text-align:center;outline:none;box-shadow:0 2px 8px #0001;background:rgba(255,255,255,0.95);transition:border 0.2s;'>`;
-              html += `<div id='scrambleStatus' style='min-height:1.7em;margin-bottom:1.2em;font-size:1.15em;color:#444;text-align:center;'></div>`;
-              html += `<button id='submitScrambleBtn' style='padding:0.8em 1.5em;border-radius:1.5em;background:${accent};color:#fff;font-size:1.15em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>`;
+              html += `<input id='scrambleInput' type='text' autocomplete='off' placeholder='Type your answer...' style='font-size:1.35em;padding:0.8em 1.3em;border-radius:1.3em;border:2.5px solid ${accent};margin-bottom:1.1em;width:95%;max-width:370px;text-align:center;outline:none;box-shadow:0 2px 12px #b6ffb055;background:#fffefb;transition:border 0.2s,box-shadow 0.2s;'>`;
+              html += `<div id='scrambleStatus' style='min-height:1.7em;margin-bottom:1.2em;font-size:1.18em;color:#444;text-align:center;font-weight:bold;'></div>`;
+              html += `<div style='display:flex;gap:1em;justify-content:center;margin-bottom:1.2em;'>
+                <button id='hintScrambleBtn' style='padding:0.7em 1.3em;border-radius:1.2em;background:#ffd600;color:#222;font-size:1.05em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Hint</button>
+                <span id='scrambleStreak' style='font-size:1.08em;color:${accent};font-weight:bold;'></span>
+                <span id='scrambleTimer' style='font-size:1.08em;color:#888;font-weight:normal;'></span>
+              </div>`;
+              html += `<button id='submitScrambleBtn' style='padding:0.9em 1.7em;border-radius:1.7em;background:${accent};color:#fff;font-size:1.18em;font-weight:bold;border:none;box-shadow:0 4px 16px #b6ffb055;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>`;
               document.getElementById("scrambleQuizContent").innerHTML = html;
               document.getElementById("scrambleInput").focus();
+              // Show streak
+              if (scrambleStreak > 1) {
+                document.getElementById("scrambleStreak").textContent = `🔥 Streak: ${scrambleStreak}`;
+              } else {
+                document.getElementById("scrambleStreak").textContent = "";
+              }
+              // Timer
+              scrambleStartTime = Date.now();
+              let timerInterval = setInterval(() => {
+                if (document.getElementById("scrambleTimer")) {
+                  let t = ((Date.now() - scrambleStartTime) / 1000).toFixed(1);
+                  document.getElementById("scrambleTimer").textContent = `⏱️ ${t}s`;
+                } else {
+                  clearInterval(timerInterval);
+                }
+              }, 100);
+              // Hint button
+              document.getElementById("hintScrambleBtn").onclick = () => {
+                scrambleHintUsed = true;
+                document.getElementById("scrambleStatus").textContent = `Hint: ${getHint(q.answer)}`;
+                document.getElementById("scrambleStatus").style.color = accent;
+                document.getElementById("hintScrambleBtn").disabled = true;
+                document.getElementById("hintScrambleBtn").style.opacity = 0.6;
+              };
               document.getElementById("submitScrambleBtn").onclick = () => {
+                
                 const val = document
                   .getElementById("scrambleInput")
                   .value.trim()
                   .toUpperCase();
+                const inputEl = document.getElementById("scrambleInput");
+                const wordEl = document.getElementById("scrambleWord");
+                let timeTaken = ((Date.now() - scrambleStartTime) / 1000);
                 if (val === q.answer) {
                   scrambleScore++;
+                  scrambleStreak++;
+                  scrambleTimes.push(timeTaken);
                   document.getElementById("scrambleStatus").textContent =
-                    "Correct!";
+                    scrambleHintUsed ? "Correct! (used hint)" : "Correct!";
+                  clearInterval(timerInterval);
                   document.getElementById("scrambleStatus").style.color =
                     accent;
-                  document.getElementById("scrambleInput").style.borderColor =
-                    accent;
-                  document.getElementById("scrambleInput").style.background =
-                    "#eaffea";
+                  inputEl.style.borderColor = accent;
+                  inputEl.style.background = "#eaffea";
+                  wordEl.style.background = "#eaffea";
+                  wordEl.style.color = accent;
                   setTimeout(() => {
                     scrambleIndex++;
+                    scrambleHintUsed = false;
                     if (scrambleIndex < scrambleWords.length) {
                       renderScrambleQuestion();
                     } else {
@@ -1838,14 +1964,17 @@
                     }
                   }, 700);
                 } else {
+                  scrambleStreak = 0;
                   document.getElementById("scrambleStatus").textContent =
                     "Try again!";
                   document.getElementById("scrambleStatus").style.color =
                     "#e63946";
-                  document.getElementById("scrambleInput").style.borderColor =
-                    "#e63946";
-                  document.getElementById("scrambleInput").style.background =
-                    "#fff0f0";
+                  inputEl.style.borderColor = "#e63946";
+                  inputEl.style.background = "#fff0f0";
+                  wordEl.style.background = "#fff0f0";
+                  wordEl.style.color = "#e63946";
+                  animateShake(wordEl);
+                  animateShake(inputEl);
                 }
               };
               document.getElementById("scrambleInput").onkeydown = (e) => {
@@ -1855,14 +1984,30 @@
             }
             function renderScrambleResult() {
               const accent = getScrambleAccent();
+              let avgTime = scrambleTimes.length ? (scrambleTimes.reduce((a,b)=>a+b,0)/scrambleTimes.length).toFixed(2) : '0.00';
+              let fastest = scrambleTimes.length ? Math.min(...scrambleTimes).toFixed(2) : '0.00';
+              let emoji = "😃";
+              if (scrambleScore === scrambleWords.length) emoji = "🏆";
+              else if (scrambleScore >= scrambleWords.length - 2) emoji = "👏";
+              else if (scrambleScore <= 2) emoji = "🤔";
               document.getElementById(
                 "scrambleQuizContent"
-              ).innerHTML = `<div style='font-size:1.3em;color:${accent};text-shadow:0 1px 8px #fff8;margin-bottom:1em;text-align:center;'>You solved ${scrambleScore} out of ${scrambleWords.length}!</div><button id='playAgainScramble' style='padding:0.8em 1.5em;border-radius:1.5em;background:${accent};color:#fff;font-size:1.1em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Play Again</button>`;
+              ).innerHTML = `<div style='font-size:2.3em;margin-bottom:0.5em;text-align:center;'>${emoji}</div><div style='font-size:1.5em;color:${accent};text-shadow:0 1px 8px #fff8;margin-bottom:1.2em;text-align:center;font-weight:bold;'>You solved <b>${scrambleScore}</b> out of <b>${scrambleWords.length}</b>!</div><div style='font-size:1.13em;color:#444;margin-bottom:0.7em;text-align:center;'>Avg. Time: <b>${avgTime}s</b> &nbsp;|&nbsp; Fastest: <b>${fastest}s</b></div><button id='playAgainScramble' style='padding:1.1em 2.2em;border-radius:2em;background:${accent};color:#fff;font-size:1.22em;font-weight:bold;border:none;box-shadow:0 4px 16px #b6ffb055;cursor:pointer;transition:background 0.2s;'>Play Again</button>`;
               document.getElementById("playAgainScramble").onclick = () => {
                 scrambleIndex = 0;
                 scrambleScore = 0;
+                scrambleStreak = 0;
+                scrambleHintUsed = false;
+                scrambleTimes = [];
                 renderScrambleQuestion();
               };
+            }
+            // Add shake animation CSS if not present
+            if (!document.getElementById("scrambleShakeStyle")) {
+              const style = document.createElement("style");
+              style.id = "scrambleShakeStyle";
+              style.textContent = `@keyframes shake { 0% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } 100% { transform: translateX(0); } }`;
+              document.head.appendChild(style);
             }
             renderScrambleQuestion();
             document.getElementById("backToMenuScrambleBtn").onclick = () => {
