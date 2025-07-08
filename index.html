@@ -1058,6 +1058,16 @@
       function checkMobileBlocker() {
         const blocker = document.getElementById("mobileBlocker");
         if (!blocker) return;
+        // Allow mobile if referred from portfolio.rockethour.co.za
+        let allowMobile = false;
+        try {
+          if (document.referrer && document.referrer.startsWith("https://portfolio.rockethour.co.za/")) {
+            allowMobile = true;
+          }
+        } catch (e) {}
+        // If on homepage, allow mobile (for home only)
+        const home = document.getElementById("homeContainer");
+        const isHomeVisible = home && (home.style.display === "" || home.style.display === "flex" || home.style.display === undefined);
         // Block if mobile device, or width < 700px, or (landscape and height < 500px)
         const isMobile =
           /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
@@ -1066,6 +1076,12 @@
         const isTooNarrow = window.innerWidth < 700;
         const isLandscape = window.innerWidth > window.innerHeight;
         const isTooShortLandscape = isLandscape && window.innerHeight < 800;
+        // If allowed, never block
+        if (allowMobile || (isHomeVisible && isMobile)) {
+          blocker.style.display = "none";
+          document.body.style.overflow = "";
+          return;
+        }
         if (isMobile || isTooNarrow || isTooShortLandscape) {
           blocker.style.display = "flex";
           document.body.style.overflow = "hidden";
