@@ -1075,7 +1075,7 @@
           );
         const isTooNarrow = window.innerWidth < 900;
         const isLandscape = window.innerWidth > window.innerHeight;
-        const isTooShortLandscape = isLandscape && window.innerHeight < 800;
+        const isTooShortLandscape = isLandscape && window.innerHeight < 750;
         // If allowed, never block
         if (allowMobile || (isHomeVisible && isMobile)) {
           blocker.style.display = "none";
@@ -1172,17 +1172,17 @@
                     <h2 style="font-size:2em;color:${memAccent};text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;">Mario Memory Match</h2>
                     <div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,80px);gap:1em;margin-bottom:2em;"></div>
                     <div id="memoryStatus" style="margin:1em 0 0 0;font-size:1.1em;color:#444;"></div>
-                    <button id="backToMenuBtn" style="padding:0.8em 2em;border-radius:1.5em;background:${memAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;margin-top:2em;">Back to Menu</button>
+                    <button id="backToMenuBtn" style="padding:0.8em 2em;border-radius:1.5em;background:${memAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;margin-top:2em;">Back Home</button>
                 `;
             document.body.appendChild(memoryDiv);
             // Mario characters (use emoji for simplicity)
             const characters = [
               { name: "Mario", icon: '<img src="img/Mario.png"></img>' },
-              { name: "Luigi", icon: "👨\u200d🦱" },
-              { name: "Bowser", icon: "🐲" },
-              { name: "Peach", icon: "👸" },
+              { name: "Luigi", icon: "<img src=\"img/Luigi.png\"></img>" },
+              { name: "Bowser", icon: "<img src=\"img/Bowser.png\"></img>"},
+              { name: "Peach", icon: "<img src=\"img/Peach.png\"></img>" },
               { name: "Yoshi", icon: '<img src="img/Yoshi.png"></img>' },
-              { name: "Toad", icon: "🍄" },
+              { name: "Toad", icon: "<img src=\"img/Toad.png\"></img>" },
               { name: "Goomba", icon: '<img src="img/Goomba.png"></img>' },
               { name: "Koopa", icon: '<img src="img/Koopa.png"></img>' },
             ];
@@ -1327,15 +1327,15 @@
             const whatNextQuestions = [
               {
                 question:
-                  "Mario is running toward a ? Block. What happens next?",
+                  "Mario sees a goomba. What does he do next?",
                 image: null,
                 answers: [
-                  "He gets a coin",
-                  "A Goomba appears",
-                  "He gets a Super Mushroom",
-                  "The block disappears",
+                  "He jumps on it",
+                  "He runs into it",
+                  "He eats it",
+                  "He runs away immediately"
                 ],
-                correct: 2,
+                correct: 0,
               },
               {
                 question: "Mario jumps on a Koopa Troopa. What happens next?",
@@ -1349,7 +1349,7 @@
                 correct: 0,
               },
               {
-                question: "Mario grabs a Starman. What happens next?",
+                question: "Mario grabs a Super Star. What happens next?",
                 image: null,
                 answers: [
                   "He becomes invincible",
@@ -1622,17 +1622,26 @@
                 area.querySelectorAll(".coinGameOverlay").forEach((e) => {
                   if (e.id !== "coinLivesDisplay") e.remove();
                 });
-                // Mario
+                // Mario (replace emoji with MarioCoinCatcher.png)
                 const marioDiv = document.createElement("div");
                 marioDiv.style.position = "absolute";
                 marioDiv.style.left = mario.x + "px";
                 marioDiv.style.top = mario.y + "px";
-                marioDiv.style.width = mario.w + "px";
-                marioDiv.style.height = mario.h + "px";
-                marioDiv.style.fontSize = "2.2em";
-                marioDiv.style.textAlign = "center";
-                marioDiv.style.lineHeight = mario.h + "px";
-                marioDiv.textContent = "👨‍🦱";
+                // Make Mario bigger
+                marioDiv.style.width = (mario.w * 1.7) + "px";
+                marioDiv.style.height = (mario.h * 1.7) + "px";
+                marioDiv.style.display = "flex";
+                marioDiv.style.alignItems = "center";
+                marioDiv.style.justifyContent = "center";
+                marioDiv.style.pointerEvents = "none";
+                const marioImg = document.createElement("img");
+                marioImg.src = "img/MarioCoinCatcher.png";
+                marioImg.alt = "Mario";
+                marioImg.style.width = "100%";
+                marioImg.style.height = "100%";
+                marioImg.style.objectFit = "contain";
+                marioImg.style.imageRendering = "auto";
+                marioDiv.appendChild(marioImg);
                 area.appendChild(marioDiv);
                 // Items
                 items.forEach((item) => {
@@ -1822,6 +1831,7 @@
               requestAnimationFrame(gameLoop);
               document.getElementById("backToMenuCoinBtn").onclick = () => {
                 coinDiv.style.display = "none";
+                running = false;
                 // Remove sidebar
                 if (sidebar) sidebar.remove();
                 // Restore navbar

@@ -27,9 +27,8 @@ const quizLevels = [
             question: "What is the name of Mario's dinosaur friend?",
             answers: ["Yoshi", "Donkey Kong", "Wario", "Daisy"],
             correct: 0
-        }
-    ],
-    [ // Level 2
+        },
+    
         {
             question: "Who is the princess Mario often saves?",
             answers: ["Peach", "Rosalina", "Daisy", "Pauline"],
@@ -54,9 +53,7 @@ const quizLevels = [
             question: "Which game console did Super Mario 64 debut on?",
             answers: ["Nintendo 64", "Super Nintendo", "GameCube", "Wii"],
             correct: 0
-        }
-    ],
-    [ // Level 3
+        },
         {
             question: "Which character is this? (Silhouette)",
             answers: ["Mario", "Luigi", "Toad", "Bowser"],

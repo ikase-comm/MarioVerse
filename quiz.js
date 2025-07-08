@@ -51,18 +51,6 @@ function showQuestion() {
       navbarText: "#226ac8",
       navbarShadow: "#fff",
     },
-    mario: {
-      bg: "#fff4f4", // light red-tinted background
-      card: "#fff",
-      btn: "#e63946",
-      btnText: "#fff",
-      text: "#e63946",
-      shadow: "#e6394620",
-      tip: "#e63946",
-      tipText: "#333",
-      navbarText: "#e63946",
-      navbarShadow: "#fff",
-    },
     luigi: {
       bg: "#d2f5d2", // slightly darker, soft green
       card: "#f6fff6",
@@ -119,16 +107,8 @@ function showQuestion() {
   };overflow-x:hidden;">
       <div class="quiz-container" id="quizStyled" style="display:flex;flex-direction:column;align-items:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
         <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;max-width:700px;">
-          <button onclick=\"goBackToMenu()\" style=\"padding:0.6em 1.5em;border-radius:1.5em;background:${
-            t.btn
-          };color:${
-    t.btnText
-  };font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;\">← Home</button>
-          <span style="font-size:1.5em;color:${
-            t.text
-          };text-shadow:1px 1px 0 #fff;">Q${
-    currentQuestion + 1
-  } <span style='font-size:0.9em;'>/ 5</span></span>
+          <button onclick=\"goBackToMenu()\" style=\"padding:0.6em 1.5em;border-radius:1.5em;background:${t.btn};color:${t.btnText};font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;\">← Home</button>
+          <span style="display:inline-block;padding:0.6em 1.5em;border-radius:1.5em;background:${t.btn};color:${t.btnText};font-weight:bold;box-shadow:0 2px 8px #0002;border:none;font-size:1.1em;min-width:90px;text-align:center;letter-spacing:0.5px;">Q${currentQuestion + 1} <span style='font-size:0.9em;'>/ ${quizLevels[0].length}</span></span>
         </div>
         <h2 style="font-size:2.3em;color:${
           t.text
@@ -160,8 +140,35 @@ function goBackToMenu() {
   // Hide quiz, show menu (assuming menu is #mainMenu)
   const quizContainer = document.getElementById("quizContainer");
   const mainMenu = document.getElementById("homeContainer");
-  if (quizContainer) quizContainer.style.display = "none";
-  if (mainMenu) mainMenu.style.display = "flex";
+  if (quizContainer) {
+    quizContainer.style.display = "none";
+    // Reset quizContainer background and styles
+    quizContainer.style.background = "";
+    quizContainer.innerHTML = "";
+  }
+  if (mainMenu) {
+    mainMenu.style.display = "flex";
+    // Reset homeContainer styles if any were changed
+    mainMenu.style.background = "";
+    mainMenu.style.padding = "";
+    mainMenu.style.marginTop = "";
+  }
+  // Always set Mario theme on home return
+  if (typeof setTheme === "function") {
+    setTheme("mario");
+  }
+  // Restore navbar title color and text shadow
+  const navbar = document.getElementById("mainNavbar");
+  if (navbar) {
+    const title = navbar.querySelector(".title");
+    if (title) {
+      title.style.color = "";
+      title.style.textShadow = "";
+      title.style.webkitTextFillColor = "";
+      title.style.webkitBackgroundClip = "";
+      title.style.background = "";
+    }
+  }
   showFooterQUIZ();
   // Optionally reset quiz state
   currentLevel = 0;
@@ -264,8 +271,32 @@ function showQuizScoreModal() {
     // Hide quiz, show menu
     let quizContainer = document.getElementById("quizContainer");
     let mainMenu = document.getElementById("homeContainer");
-    if (quizContainer) quizContainer.style.display = "none";
-    if (mainMenu) mainMenu.style.display = "flex";
+    if (quizContainer) {
+      quizContainer.style.display = "none";
+      quizContainer.style.background = "";
+      quizContainer.innerHTML = "";
+    }
+    if (mainMenu) {
+      mainMenu.style.display = "flex";
+      mainMenu.style.background = "";
+      mainMenu.style.padding = "";
+      mainMenu.style.marginTop = "";
+    }
+    // Always set Mario theme on home return
+    if (typeof setTheme === "function") {
+      setTheme("mario");
+    }
+    const navbar = document.getElementById("mainNavbar");
+    if (navbar) {
+      const title = navbar.querySelector(".title");
+      if (title) {
+        title.style.color = "";
+        title.style.textShadow = "";
+        title.style.webkitTextFillColor = "";
+        title.style.webkitBackgroundClip = "";
+        title.style.background = "";
+      }
+    }
     showFooterQUIZ();
     quizScore = 0;
     currentLevel = 0;
