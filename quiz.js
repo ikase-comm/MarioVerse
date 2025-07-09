@@ -25,15 +25,41 @@ function shuffleArray(arr) {
   }
 }
 
-// Deep clone and shuffle quizLevels on load
+// Deep clone and shuffle quizLevels on load, and randomize answers
 let originalQuizLevels = typeof quizLevels !== 'undefined' ? JSON.parse(JSON.stringify(quizLevels)) : [];
 let randomizedQuizLevels = [];
-if (typeof quizLevels !== 'undefined') {
-  randomizedQuizLevels = quizLevels.map(level => {
-    let levelCopy = level.slice();
-    shuffleArray(levelCopy);
-    return levelCopy;
+function shuffleQuizLevelsAndAnswers(levels) {
+  // Flatten all questions into one array for full randomization
+  let allQuestions = [];
+  levels.forEach(level => {
+    allQuestions = allQuestions.concat(level);
   });
+  shuffleArray(allQuestions);
+  // Optionally, split into levels of same size as original
+  let levelSizes = levels.map(level => level.length);
+  let newLevels = [];
+  let idx = 0;
+  for (let size of levelSizes) {
+    let level = [];
+    for (let i = 0; i < size; i++) {
+      // Deep clone question and randomize answers
+      let q = JSON.parse(JSON.stringify(allQuestions[idx++]));
+      if (q.answers && Array.isArray(q.answers)) {
+        let answerObjs = q.answers.map((ans, i) => ({ans, i}));
+        shuffleArray(answerObjs);
+        let newAnswers = answerObjs.map(obj => obj.ans);
+        let newCorrect = answerObjs.findIndex(obj => obj.i === q.correct);
+        q.answers = newAnswers;
+        q.correct = newCorrect;
+      }
+      level.push(q);
+    }
+    newLevels.push(level);
+  }
+  return newLevels;
+}
+if (typeof quizLevels !== 'undefined') {
+  randomizedQuizLevels = shuffleQuizLevelsAndAnswers(quizLevels);
 }
 
 // Use randomizedQuizLevels in place of quizLevels
@@ -352,12 +378,50 @@ function getTotalQuizQuestions() {
 function restartQuiz() {
   // Re-shuffle on restart
   if (typeof originalQuizLevels !== 'undefined' && originalQuizLevels.length) {
-    randomizedQuizLevels = originalQuizLevels.map(level => {
-      let levelCopy = level.slice();
-      shuffleArray(levelCopy);
-      return levelCopy;
-    });
+    randomizedQuizLevels = shuffleQuizLevelsAndAnswers(originalQuizLevels);
   }
+// --- WHAT HAPPENS NEXT? & WORD SCRAMBLE RANDOMIZATION ---
+// What Happens Next: randomize question order on each start
+if (window.whatNextQuestions && Array.isArray(window.whatNextQuestions)) {
+  window._originalWhatNextQuestions = JSON.parse(JSON.stringify(window.whatNextQuestions));
+  function shuffleWhatNextQuestions() {
+    let arr = JSON.parse(JSON.stringify(window._originalWhatNextQuestions));
+    shuffleArray(arr);
+    window._randomizedWhatNextQuestions = arr;
+  }
+  shuffleWhatNextQuestions();
+  window.getWhatNextQuestions = function() {
+    return window._randomizedWhatNextQuestions || window.whatNextQuestions;
+  };
+  // Call shuffle on restart or play again
+  window.restartWhatNextQuiz = function() {
+    shuffleWhatNextQuestions();
+    if (typeof window._restartWhatNextQuizImpl === 'function') {
+      window._restartWhatNextQuizImpl();
+    }
+  };
+}
+
+// Word Scramble: randomize word order on each start
+if (window.scrambleWords && Array.isArray(window.scrambleWords)) {
+  window._originalScrambleWords = JSON.parse(JSON.stringify(window.scrambleWords));
+  function shuffleScrambleWords() {
+    let arr = JSON.parse(JSON.stringify(window._originalScrambleWords));
+    shuffleArray(arr);
+    window._randomizedScrambleWords = arr;
+  }
+  shuffleScrambleWords();
+  window.getScrambleWords = function() {
+    return window._randomizedScrambleWords || window.scrambleWords;
+  };
+  // Call shuffle on restart or play again
+  window.restartScrambleGame = function() {
+    shuffleScrambleWords();
+    if (typeof window._restartScrambleGameImpl === 'function') {
+      window._restartScrambleGameImpl();
+    }
+  };
+}
   currentLevel = 0;
   currentQuestion = 0;
   showQuestion();
