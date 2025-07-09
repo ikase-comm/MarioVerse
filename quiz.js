@@ -6,6 +6,7 @@ function showFooterQUIZ() {
   if (f) f.style.display = "";
 }
 
+
 // --- NEW LOGIC FOR MULTI-LEVEL QUIZ, THEMES, AND MODAL SHOP ---
 
 let currentLevel = 0;
@@ -15,10 +16,36 @@ let currentQuestion = 0;
 let unlockedThemes = ["mario"];
 let selectedTheme = "mario";
 
+// --- RANDOMIZE QUIZ ORDER ---
+// Shuffle function (Fisher-Yates)
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// Deep clone and shuffle quizLevels on load
+let originalQuizLevels = typeof quizLevels !== 'undefined' ? JSON.parse(JSON.stringify(quizLevels)) : [];
+let randomizedQuizLevels = [];
+if (typeof quizLevels !== 'undefined') {
+  randomizedQuizLevels = quizLevels.map(level => {
+    let levelCopy = level.slice();
+    shuffleArray(levelCopy);
+    return levelCopy;
+  });
+}
+
+// Use randomizedQuizLevels in place of quizLevels
+function getQuizLevels() {
+  return randomizedQuizLevels.length ? randomizedQuizLevels : quizLevels;
+}
+
 function showQuestion() {
   // End of all levels
   const quizContainer = document.getElementById("quizContainer");
-  if (currentLevel >= quizLevels.length) {
+  const quizLevelsToUse = getQuizLevels();
+  if (currentLevel >= quizLevelsToUse.length) {
     quizContainer.innerHTML = `
             <div class="quiz-theme-bg" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
                 <div style='background:linear-gradient(135deg,#e63946 60%,#ff1744 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:900px;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
@@ -29,7 +56,7 @@ function showQuestion() {
         `;
     return;
   }
-  const level = quizLevels[currentLevel];
+  const level = quizLevelsToUse[currentLevel];
   const q = level[currentQuestion];
   // Theme support: get theme from body class
   let theme = "default";
@@ -108,7 +135,7 @@ function showQuestion() {
       <div class="quiz-container" id="quizStyled" style="display:flex;flex-direction:column;align-items:center;width:100vw;min-height:100vh;background:rgba(255,255,255,0.22);border-radius:0;box-shadow:none;padding:1.5em 0 2em 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:none;margin-top:0;">
         <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;max-width:700px;">
           <button onclick=\"goBackToMenu()\" style=\"padding:0.6em 1.5em;border-radius:1.5em;background:${t.btn};color:${t.btnText};font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1em;\">← Home</button>
-          <span style="display:inline-block;padding:0.6em 1.5em;border-radius:1.5em;background:${t.btn};color:${t.btnText};font-weight:bold;box-shadow:0 2px 8px #0002;border:none;font-size:1.1em;min-width:90px;text-align:center;letter-spacing:0.5px;">Q${currentQuestion + 1} <span style='font-size:0.9em;'>/ ${quizLevels[0].length}</span></span>
+          <span style="display:inline-block;padding:0.6em 1.5em;border-radius:1.5em;background:${t.btn};color:${t.btnText};font-weight:bold;box-shadow:0 2px 8px #0002;border:none;font-size:1.1em;min-width:90px;text-align:center;letter-spacing:0.5px;">Q${currentQuestion + 1} <span style='font-size:0.9em;'>/ ${level.length}</span></span>
         </div>
         <h2 style="font-size:2.3em;color:${
           t.text
@@ -177,7 +204,8 @@ function goBackToMenu() {
 
 let quizScore = 0;
 window.answerQuestion = function (idx) {
-  const level = quizLevels[currentLevel];
+  const quizLevelsToUse = getQuizLevels();
+  const level = quizLevelsToUse[currentLevel];
   const q = level[currentQuestion];
   const answerBtns = document.querySelectorAll(".answer-btn");
   answerBtns.forEach((btn, i) => {
@@ -314,13 +342,22 @@ function showQuizScoreModal() {
 
 function getTotalQuizQuestions() {
   let total = 0;
-  for (let i = 0; i < quizLevels.length; i++) {
-    total += quizLevels[i].length;
+  const quizLevelsToUse = getQuizLevels();
+  for (let i = 0; i < quizLevelsToUse.length; i++) {
+    total += quizLevelsToUse[i].length;
   }
   return total;
 }
 
 function restartQuiz() {
+  // Re-shuffle on restart
+  if (typeof originalQuizLevels !== 'undefined' && originalQuizLevels.length) {
+    randomizedQuizLevels = originalQuizLevels.map(level => {
+      let levelCopy = level.slice();
+      shuffleArray(levelCopy);
+      return levelCopy;
+    });
+  }
   currentLevel = 0;
   currentQuestion = 0;
   showQuestion();

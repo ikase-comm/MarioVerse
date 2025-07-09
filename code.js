@@ -45,9 +45,9 @@ const quizLevels = [
             correct: 0
         },
         {
-            question: "What is the name of Mario's brother?",
-            answers: ["Luigi", "Wario", "Toad", "Bowser"],
-            correct: 0
+            question: "Which one of these is NOT one of Mario's Power-ups?",
+            answers: ["Ice Flower", "Hot Dog", "1-Up Mushroom", "Super Star"],
+            correct: 1
         },
         {
             question: "Which game console did Super Mario 64 debut on?",

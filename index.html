@@ -1503,8 +1503,8 @@
             sidebar.style.background = "#fff";
             sidebar.style.boxShadow = "2px 0 16px #0002";
             sidebar.innerHTML = `
-              <div style=\"margin-top:2.5em;margin-bottom:1.5em;\"></div>
-              <button id=\"backToMenuCoinBtn\" title=\"Home\" style=\"margin-top:auto;margin-bottom:2.5em;padding:0.7em 0.7em;border-radius:50%;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:2em;width:56px;height:56px;\">
+              <div style=\"margin-bottom:1.5em;\"></div>
+              <button id=\"backToMenuCoinBtn\" title=\"Home\" style=\"margin-bottom:2.5em;padding:0.7em 0.7em;border-radius:50%;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:2em;width:56px;height:56px;\">
                 <span style=\"display:inline-block;width:28px;height:28px;line-height:28px;\">
                   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='#222' width='28' height='28'><path d='M10.707 2.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1-1.414 1.414L20 12.414V20a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-4h-2v4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2v-7.586l-0.707 0.707A1 1 0 0 1 1.879 11.293l9-9z'/></svg>
                 </span>
@@ -1523,8 +1523,7 @@
             coinDiv.style.background = "none";
             // Use theme background for the game area
             let coinBg = "linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%)";
-            if (document.body.classList.contains("theme-mario"))
-              coinBg = "linear-gradient(120deg, #ffb3b3 0%, #e63946 100%)";
+            coinBg = "linear-gradient(120deg, #ffb3b3 0%, #e63946 100%)";
             if (document.body.classList.contains("theme-luigi"))
               coinBg = "linear-gradient(120deg, #b6ffb0 0%, #3ad029 100%)";
             if (document.body.classList.contains("theme-rosalina"))
@@ -1543,17 +1542,53 @@
                 modal.style.left = '0';
                 modal.style.width = '100vw';
                 modal.style.height = '100vh';
-                modal.style.background = 'rgba(30,30,60,0.25)';
+                // Theme-aware modal background
+                let modalBg = 'rgba(30,30,60,0.25)';
+                if (document.body.classList.contains('theme-luigi')) modalBg = 'rgba(60,180,60,0.18)';
+                if (document.body.classList.contains('theme-rosalina')) modalBg = 'rgba(129,212,250,0.18)';
+                if (document.body.classList.contains('theme-peach')) modalBg = 'rgba(255,192,203,0.18)';
+                if (document.body.classList.contains('theme-bowser')) modalBg = 'rgba(255,87,34,0.18)';
+                if (document.body.classList.contains('theme-wario')) modalBg = 'rgba(255,235,59,0.18)';
+                modal.style.background = modalBg;
                 modal.style.zIndex = '99999';
                 modal.style.display = 'flex';
                 modal.style.alignItems = 'center';
                 modal.style.justifyContent = 'center';
+                // Theme-aware inner modal background
+                let innerBg = "linear-gradient(135deg,#ffd600 60%,#ff9800 100%)";
+                let h2Color = "#ff9800";
+                let h2Shadow = "2px 2px 0 #fff176";
+                if (document.body.classList.contains('theme-luigi')) {
+                  innerBg = "linear-gradient(135deg,#b6ffb0 60%,#3ad029 100%)";
+                  h2Color = "#3ad029";
+                  h2Shadow = "2px 2px 0 #b6ffb0";
+                }
+                if (document.body.classList.contains('theme-rosalina')) {
+                  innerBg = "linear-gradient(135deg,#e0f7fa 60%,#81d4fa 100%)";
+                  h2Color = "#039be5";
+                  h2Shadow = "2px 2px 0 #e0f7fa";
+                }
+                if (document.body.classList.contains('theme-peach')) {
+                  innerBg = "linear-gradient(135deg,#ffe0f0 60%,#ffb6c1 100%)";
+                  h2Color = "#ff69b4";
+                  h2Shadow = "2px 2px 0 #ffe0f0";
+                }
+                if (document.body.classList.contains('theme-bowser')) {
+                  innerBg = "linear-gradient(135deg,#ffb300 60%,#ff5722 100%)";
+                  h2Color = "#ff5722";
+                  h2Shadow = "2px 2px 0 #ffb300";
+                }
+                if (document.body.classList.contains('theme-wario')) {
+                  innerBg = "linear-gradient(135deg,#fff176 60%,#ffd600 100%)";
+                  h2Color = "#ffd600";
+                  h2Shadow = "2px 2px 0 #fff176";
+                }
                 modal.innerHTML = `
-                  <div style='background:linear-gradient(135deg,#ffd600 60%,#ff9800 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:20vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
-                    <h2 style='font-size:2.1em;color:#ff9800;text-shadow:2px 2px 0 #fff176;margin-bottom:0.7em;'>How to Play</h2>
+                  <div style='background:${innerBg};border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:20vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
+                    <h2 style='font-size:2.1em;color:${h2Color};text-shadow:${h2Shadow};margin-bottom:0.7em;'>How to Play</h2>
                     <div style='font-size:1.3em;color:#222;margin-bottom:1.2em;text-align:center;'>Use the <b>Left</b> and <b>Right</b> arrow keys on your keyboard to move Mario.<br>Catch coins, avoid Goombas!</div>
-                    <div id='coinCatcherLoading' style='font-size:1.1em;color:#ff9800;margin-bottom:1.2em;display:none;'>Loading images...</div>
-                    <button id='coinGameStartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Start Game</button>
+                    <div id='coinCatcherLoading' style='font-size:1.1em;color:${h2Color};margin-bottom:1.2em;display:none;'>Loading images...</div>
+                    <button id='coinGameStartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:${h2Color};color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Start Game</button>
                   </div>
                 `;
                 document.body.appendChild(modal);
@@ -1741,7 +1776,7 @@
                   area.appendChild(livesDiv);
                 }
                 livesDiv.innerHTML =
-                  "<span style='font-size:1.2em;'>👨‍🦱</span> " +
+                  "<img src='img/Mario.png' alt='Mario' style='height:1.2em;width:auto;vertical-align:middle;margin-right:0.2em;'> " +
                   "❤️".repeat(lives) +
                   ' <span style="font-size:0.7em;color:#444;">x ' +
                   lives +
