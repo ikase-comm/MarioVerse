@@ -1075,7 +1075,7 @@
           );
         const isTooNarrow = window.innerWidth < 1000;
         const isLandscape = window.innerWidth > window.innerHeight;
-        const isTooShortLandscape = isLandscape && window.innerHeight < 750;
+        const isTooShortLandscape = isLandscape && window.innerHeight < 600;
         // If allowed, never block
         if (allowMobile || (isHomeVisible && isMobile)) {
           blocker.style.display = "none";
