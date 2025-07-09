@@ -625,7 +625,7 @@
             transition: transform 0.2s;
           "
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em">🍄</div>
+          <div style="font-size: 3em; margin-bottom: 0.3em"><img src="img/mushroom.png" height="54px" width="54px"/></div>
           <h2
             style="
               margin: 0 0 0.5em 0;
@@ -738,7 +738,7 @@
             transition: transform 0.2s;
           "
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em">🪙</div>
+          <div style="font-size: 3em; margin-bottom: 0.1em"><img src="img/Coin.png" width="54px" height="54px"/></div>
           <h2
             style="
               margin: 0 0 0.5em 0;
@@ -850,7 +850,7 @@
             transition: transform 0.2s;
           "
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em">❓</div>
+          <div style="font-size: 3em; margin-bottom: 0.3em"><img src="img/QuestionBlock.png" width="64px" height="64px"/></div>
           <h2
             style="
               margin: 0 0 0.5em 0;
@@ -1073,7 +1073,7 @@
           /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
             navigator.userAgent
           );
-        const isTooNarrow = window.innerWidth < 900;
+        const isTooNarrow = window.innerWidth < 1000;
         const isLandscape = window.innerWidth > window.innerHeight;
         const isTooShortLandscape = isLandscape && window.innerHeight < 750;
         // If allowed, never block
@@ -1173,14 +1173,14 @@
             document.body.appendChild(memoryDiv);
             // Mario characters (use emoji for simplicity)
             const characters = [
-              { name: "Mario", icon: '<img src="img/Mario.png"></img>', img: "img/Mario.png" },
-              { name: "Luigi", icon: "<img src=\"img/Luigi.png\"></img>", img: "img/Luigi.png" },
-              { name: "Bowser", icon: "<img src=\"img/Bowser.png\"></img>", img: "img/Bowser.png" },
-              { name: "Peach", icon: "<img src=\"img/Peach.png\"></img>", img: "img/Peach.png" },
-              { name: "Yoshi", icon: '<img src="img/Yoshi.png"></img>', img: "img/Yoshi.png" },
-              { name: "Toad", icon: "<img src=\"img/Toad.png\"></img>", img: "img/Toad.png" },
-              { name: "Goomba", icon: '<img src="img/Goomba.png"></img>', img: "img/Goomba.png" },
-              { name: "Koopa", icon: '<img src="img/Koopa.png"></img>', img: "img/Koopa.png" },
+              { name: "Mario", icon: '<img src="img/Mario.png"/>', img: "img/Mario.png" },
+              { name: "Luigi", icon: "<img src=\"img/Luigi.png\"/>", img: "img/Luigi.png" },
+              { name: "Bowser", icon: "<img src=\"img/Bowser.png\"/>", img: "img/Bowser.png" },
+              { name: "Peach", icon: "<img src=\"img/Peach.png\"/>", img: "img/Peach.png" },
+              { name: "Yoshi", icon: '<img src="img/Yoshi.png"/>', img: "img/Yoshi.png" },
+              { name: "Toad", icon: "<img src=\"img/Toad.png\"/>", img: "img/Toad.png" },
+              { name: "Goomba", icon: '<img src="img/Goomba.png"/>', img: "img/Goomba.png" },
+              { name: "Koopa", icon: '<img src="img/Koopa.png"/>', img: "img/Koopa.png" },
             ];
             // Preload all images
             const allImgs = characters.map(c => c.img);
