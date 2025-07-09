@@ -89,7 +89,6 @@ function showQuestion() {
   if (document.body.classList.contains("theme-luigi")) theme = "luigi";
   else if (document.body.classList.contains("theme-rosalina"))
     theme = "rosalina";
-  else if (document.body.classList.contains("theme-mario")) theme = "mario";
   // Theme color map, with navbar text color for visibility, no gradients, soft backgrounds
   const themeStyles = {
     default: {
@@ -138,7 +137,6 @@ function showQuestion() {
   // Set body class for theme background
   document.body.classList.remove(
     "theme-default",
-    "theme-mario",
     "theme-luigi",
     "theme-rosalina"
   );
@@ -208,7 +206,7 @@ function goBackToMenu() {
   }
   // Always set Mario theme on home return
   if (typeof setTheme === "function") {
-    setTheme("mario");
+    setTheme("default");
   }
   // Restore navbar title color and text shadow
   const navbar = document.getElementById("mainNavbar");
@@ -456,7 +454,7 @@ function renderThemeShop() {
 
 function selectTheme(key) {
   selectedTheme = key;
-  applyTheme(key);
+  applyTheme();
   renderThemeShop();
 }
 

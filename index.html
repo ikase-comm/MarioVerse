@@ -2,8 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>The MarioVerse</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <!-- MarioVerse Font Import -->
     <link
       href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
@@ -451,6 +454,8 @@
       id="mobileBlocker"
       style="
         display: none;
+        opacity: 0;
+        visibility:hidden;
         position: fixed;
         z-index: 9999;
         top: 0;
@@ -592,7 +597,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 89vh;
+        min-height: 90vh;
         overflow-y: auto;
       "
     >
@@ -600,293 +605,335 @@
         style="
           display: flex;
           flex-wrap: wrap;
-          gap: 2.5em;
+          gap: 1.2em;
           justify-content: center;
           align-items: stretch;
-          max-width: 1200px;
+          max-width: 900px;
           width: 100%;
         "
       >
         <!-- Mario Quiz Card -->
         <div
           style="
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: 2em;
-            box-shadow: 0 4px 24px #0001;
-            padding: 2em 1.5em 1.5em 1.5em;
+            flex: 1 1 180px;
+            min-width: 200px;
+            max-width: 250px;
+            background: rgba(255,255,255,0.82);
+            border-radius: 1.1em;
+            box-shadow: 0 2px 12px #0002, 0 1.5px 0 #ffd600;
+            padding: 2.7em 2.5em 2.7em 2.5em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.18s;
+            cursor: pointer;
+            border: 1.5px solid #ffd600;
+            margin-bottom: 0.5em;
           "
+          onmouseover="this.style.transform='scale(1.045)';this.style.boxShadow='0 6px 24px #ffd60044,0 2px 12px #0002';"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px #0002, 0 1.5px 0 #ffd600';"
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em"><img src="img/mushroom.png" height="54px" width="54px"/></div>
+          <div style="font-size: 2.1em; margin-bottom: 0.1em"><img src="img/mushroom.png" height="54px" width="54px"/></div>
           <h2
             style="
-              margin: 0 0 0.5em 0;
-              font-size: 1.5em;
+              margin: 0 0 0.3em 0;
+              font-size: 1.08em;
               color: #e63946;
-              text-shadow: 1px 1px 0 #fff176;
+              text-shadow: 0.5px 0.5px 0 #fff176;
+              font-weight: bold;
+              letter-spacing: 0.01em;
+              text-align: center;
             "
           >
             Mario Quiz
           </h2>
           <div
             style="
-              font-size: 1.1em;
+              font-size: 0.98em;
               color: #444;
-              margin-bottom: 1.2em;
+              margin-bottom: 0.7em;
               text-align: center;
+              min-height: 2.2em;
             "
           >
-            Test your Super Mario knowledge across 3 levels!
+            Test your Super Mario knowledge!
           </div>
           <button
             id="startMarioQuiz"
             style="
-              font-size: 1.1em;
-              padding: 0.8em 2em;
-              margin: 0.5em 0 0 0;
-              border-radius: 1.5em;
+              font-size: 0.98em;
+              padding: 0.5em 1.1em;
+              margin: 0.2em 0 0 0;
+              border-radius: 1.2em;
               background: #e63946;
               color: #fff;
               font-weight: bold;
-              box-shadow: 0 2px 8px #0002;
+              box-shadow: 0 1.5px 6px #0001;
               border: none;
               cursor: pointer;
               transition: background 0.2s;
             "
           >
-            Play Mario Quiz
+            Play
           </button>
         </div>
         <!-- Mario Memory Match Card -->
         <div
           style="
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: 2em;
-            box-shadow: 0 4px 24px #0001;
-            padding: 2em 1.5em 1.5em 1.5em;
+            flex: 1 1 180px;
+            min-width: 200px;
+            max-width: 250px;
+            background: rgba(255,255,255,0.82);
+            border-radius: 1.1em;
+            box-shadow: 0 2px 12px #0002, 0 1.5px 0 #ffd600;
+            padding: 2.7em 2.5em 2.7em 2.5em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.18s;
+            cursor: pointer;
+            border: 1.5px solid #ffd600;
+            margin-bottom: 0.5em;
           "
+          onmouseover="this.style.transform='scale(1.045)';this.style.boxShadow='0 6px 24px #ffd60044,0 2px 12px #0002';"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px #0002, 0 1.5px 0 #ffd600';"
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em">🃏</div>
+          <div style="font-size: 2.1em; margin-bottom: 0.1em"><img src="img/Star.png" height="54px" width="54px" /></div>
           <h2
             style="
-              margin: 0 0 0.5em 0;
-              font-size: 1.5em;
+              margin: 0 0 0.3em 0;
+              font-size: 1.08em;
               color: #6f42c1;
-              text-shadow: 1px 1px 0 #ffd600;
-            "
-          >
-            Mario Memory Match
-          </h2>
-          <div
-            style="
-              font-size: 1.1em;
-              color: #444;
-              margin-bottom: 1.2em;
+              text-shadow: 0.5px 0.5px 0 #ffd600;
+              font-weight: bold;
+              letter-spacing: 0.01em;
               text-align: center;
             "
           >
-            Flip cards to match Mario characters! Test your memory and match
-            pairs of Mario, Luigi, Bowser, and more.
+            Memory Match
+          </h2>
+          <div
+            style="
+              font-size: 0.98em;
+              color: #444;
+              margin-bottom: 0.7em;
+              text-align: center;
+              min-height: 2.2em;
+            "
+          >
+            Flip cards to match Mario characters!
           </div>
           <button
             id="startMemoryGame"
             style="
-              font-size: 1.1em;
-              padding: 0.8em 2em;
-              margin: 0.5em 0 0 0;
-              border-radius: 1.5em;
+              font-size: 0.98em;
+              padding: 0.5em 1.1em;
+              margin: 0.2em 0 0 0;
+              border-radius: 1.2em;
               background: #6f42c1;
               color: #fff;
               font-weight: bold;
-              box-shadow: 0 2px 8px #0002;
+              box-shadow: 0 1.5px 6px #0001;
               border: none;
               cursor: pointer;
               transition: background 0.2s;
             "
           >
-            Play Memory Match
+            Play
           </button>
         </div>
         <!-- Mario Coin Catcher Card -->
         <div
           style="
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: 2em;
-            box-shadow: 0 4px 24px #0001;
-            padding: 2em 1.5em 1.5em 1.5em;
+            flex: 1 1 180px;
+            min-width: 200px;
+            max-width: 250px;
+            background: rgba(255,255,255,0.82);
+            border-radius: 1.1em;
+            box-shadow: 0 2px 12px #0002, 0 1.5px 0 #ffd600;
+            padding: 2.7em 2.5em 2.7em 2.5em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.18s;
+            cursor: pointer;
+            border: 1.5px solid #ffd600;
+            margin-bottom: 0.5em;
           "
+          onmouseover="this.style.transform='scale(1.045)';this.style.boxShadow='0 6px 24px #ffd60044,0 2px 12px #0002';"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px #0002, 0 1.5px 0 #ffd600';"
         >
-          <div style="font-size: 3em; margin-bottom: 0.1em"><img src="img/Coin.png" width="54px" height="54px"/></div>
+          <div style="font-size: 2.1em; margin-bottom: 0.1em"><img src="img/Coin.png" width="54px" height="54px"/></div>
           <h2
             style="
-              margin: 0 0 0.5em 0;
-              font-size: 1.5em;
+              margin: 0 0 0.3em 0;
+              font-size: 1.08em;
               color: #ff9800;
-              text-shadow: 1px 1px 0 #ffd600;
-            "
-          >
-            Mario Coin Catcher
-          </h2>
-          <div
-            style="
-              font-size: 1.1em;
-              color: #444;
-              margin-bottom: 1.2em;
+              text-shadow: 0.5px 0.5px 0 #ffd600;
+              font-weight: bold;
+              letter-spacing: 0.01em;
               text-align: center;
             "
           >
-            Move Mario to catch as many falling coins as you can in 30 seconds!
-            Avoid the Goombas!
+            Coin Catcher
+          </h2>
+          <div
+            style="
+              font-size: 0.98em;
+              color: #444;
+              margin-bottom: 0.7em;
+              text-align: center;
+              min-height: 2.2em;
+            "
+          >
+            Catch coins, avoid Goombas!
           </div>
           <button
             id="startCoinCatcher"
             style="
-              font-size: 1.1em;
-              padding: 0.8em 2em;
-              margin: 0.5em 0 0 0;
-              border-radius: 1.5em;
+              font-size: 0.98em;
+              padding: 0.5em 1.1em;
+              margin: 0.2em 0 0 0;
+              border-radius: 1.2em;
               background: #ff9800;
               color: #fff;
               font-weight: bold;
-              box-shadow: 0 2px 8px #0002;
+              box-shadow: 0 1.5px 6px #0001;
               border: none;
               cursor: pointer;
               transition: background 0.2s;
             "
           >
-            Play Coin Catcher
+            Play
           </button>
         </div>
         <!-- What Happens Next? Mario Quiz Card -->
         <div
           style="
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: 2em;
-            box-shadow: 0 4px 24px #0001;
-            padding: 2em 1.5em 1.5em 1.5em;
+            flex: 1 1 180px;
+            min-width: 200px;
+            max-width: 250px;
+            background: rgba(255,255,255,0.82);
+            border-radius: 1.1em;
+            box-shadow: 0 2px 12px #0002, 0 1.5px 0 #ffd600;
+            padding: 2.7em 2.5em 2.7em 2.5em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.18s;
+            cursor: pointer;
+            border: 1.5px solid #ffd600;
+            margin-bottom: 0.5em;
           "
+          onmouseover="this.style.transform='scale(1.045)';this.style.boxShadow='0 6px 24px #ffd60044,0 2px 12px #0002';"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px #0002, 0 1.5px 0 #ffd600';"
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em">🔤</div>
+          <div style="font-size: 2.1em; margin-bottom: 0.1em"><img src="img/hatlogo.png" height="54px" width="54px"/></div>
           <h2
             style="
-              margin: 0 0 0.5em 0;
-              font-size: 1.5em;
+              margin: 0 0 0.3em 0;
+              font-size: 1.08em;
               color: #39e66d;
-              text-shadow: 1px 1px 0 #ffd600;
-            "
-          >
-            Mario Word Scramble
-          </h2>
-          <div
-            style="
-              font-size: 1.1em;
-              color: #444;
-              margin-bottom: 1.2em;
+              text-shadow: 0.5px 0.5px 0 #ffd600;
+              font-weight: bold;
+              letter-spacing: 0.01em;
               text-align: center;
             "
           >
-            Unscramble Mario-related words! Can you solve them all?
+            Word Scramble
+          </h2>
+          <div
+            style="
+              font-size: 0.98em;
+              color: #444;
+              margin-bottom: 0.7em;
+              text-align: center;
+              min-height: 2.2em;
+            "
+          >
+            Unscramble Mario words!
           </div>
           <button
             id="startWordScramble"
             style="
-              font-size: 1.1em;
-              padding: 0.8em 2em;
-              margin: 0.5em 0 0 0;
-              border-radius: 1.5em;
+              font-size: 0.98em;
+              padding: 0.5em 1.1em;
+              margin: 0.2em 0 0 0;
+              border-radius: 1.2em;
               background: #39e66d;
               color: #fff;
               font-weight: bold;
-              box-shadow: 0 2px 8px #0002;
+              box-shadow: 0 1.5px 6px #0001;
               border: none;
               cursor: pointer;
               transition: background 0.2s;
             "
           >
-            Play Word Scramble
+            Play
           </button>
         </div>
         <div
           style="
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: 2em;
-            box-shadow: 0 4px 24px #0001;
-            padding: 2em 1.5em 1.5em 1.5em;
+            flex: 1 1 180px;
+            min-width: 200px;
+            max-width: 250px;
+            background: rgba(255,255,255,0.82);
+            border-radius: 1.1em;
+            box-shadow: 0 2px 12px #0002, 0 1.5px 0 #ffd600;
+            padding: 2.7em 2.5em 2.7em 2.5em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.18s;
+            cursor: pointer;
+            border: 1.5px solid #ffd600;
+            margin-bottom: 0.5em;
           "
+          onmouseover="this.style.transform='scale(1.045)';this.style.boxShadow='0 6px 24px #ffd60044,0 2px 12px #0002';"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px #0002, 0 1.5px 0 #ffd600';"
         >
-          <div style="font-size: 3em; margin-bottom: 0.3em"><img src="img/QuestionBlock.png" width="64px" height="64px"/></div>
+          <div style="font-size: 2.1em; margin-bottom: 0.1em"><img src="img/QuestionBlock.png" width="54px" height="54px"/></div>
           <h2
             style="
-              margin: 0 0 0.5em 0;
-              font-size: 1.5em;
+              margin: 0 0 0.3em 0;
+              font-size: 1.08em;
               color: #1976d2;
-              text-shadow: 1px 1px 0 #ffd600;
+              text-shadow: 0.5px 0.5px 0 #ffd600;
+              font-weight: bold;
+              letter-spacing: 0.01em;
+              text-align: center;
             "
           >
             What Happens Next?
           </h2>
           <div
             style="
-              font-size: 1.1em;
+              font-size: 0.98em;
               color: #444;
-              margin-bottom: 1.2em;
+              margin-bottom: 0.7em;
               text-align: center;
+              min-height: 2.2em;
             "
           >
-            Watch a Mario scene and guess what happens next! Can you predict the
-            outcome?
+            Guess what happens next!
           </div>
           <button
             id="startWhatNextQuiz"
             style="
-              font-size: 1.1em;
-              padding: 0.8em 2em;
-              margin: 0.5em 0 0 0;
-              border-radius: 1.5em;
+              font-size: 0.98em;
+              padding: 0.5em 1.1em;
+              margin: 0.2em 0 0 0;
+              border-radius: 1.2em;
               background: #1976d2;
               color: #fff;
               font-weight: bold;
-              box-shadow: 0 2px 8px #0002;
+              box-shadow: 0 1.5px 6px #0001;
               border: none;
               cursor: pointer;
               transition: background 0.2s;
             "
           >
-            Play What Happens Next?
+            Play
           </button>
         </div>
       </div>
@@ -1052,8 +1099,9 @@
       }
 
       // Mario facts for navbar removed
-
+      
       function checkMobileBlocker() {
+
         const blocker = document.getElementById("mobileBlocker");
         if (!blocker) return;
         // Allow mobile if referred from portfolio.rockethour.co.za
@@ -1077,15 +1125,50 @@
         // If allowed, never block
         if (allowMobile || (isHomeVisible && isMobile)) {
           blocker.style.display = "none";
+          blocker.style.opacity = "0";
+          blocker.style.visibility = "hidden"
           document.body.style.overflow = "";
           return;
         }
         if (isMobile || isTooNarrow || isTooShortLandscape) {
+          // Immediately close all running game instances and modals
+          // Hide all game containers
+          [
+            'coinCatcherContainer',
+            'memoryContainer',
+            'scrambleContainer',
+            'whatNextContainer',
+            'quizContainer',
+            'themeShop',
+          ].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+          });
+          // Show home
+          const home = document.getElementById('homeContainer');
+          if (home) home.style.display = 'flex';
+          // Remove all modals/overlays
+          document.querySelectorAll('.coinGameOverlay, .modal, #quizScoreModal, #coinGameStartModal, #mobileBlockerLoading').forEach(e => e.remove());
+          // Remove sidebar if present
+          const sidebar = document.getElementById('coinSidebar');
+          if (sidebar) sidebar.remove();
+          // Restore navbar if hidden
+          const mainNavbar = document.getElementById('mainNavbar');
+          if (mainNavbar) mainNavbar.style.display = 'flex';
+          // Remove event listeners for games (if any running)
+          // (Best effort: remove keydown/keyup for Coin Catcher)
+          document.removeEventListener('keydown', window._coinCatcherKeydown);
+          document.removeEventListener('keyup', window._coinCatcherKeyup);
+          // Show blocker
           blocker.style.display = "flex";
-          // Never block overflow
+          blocker.style.opacity = "1";
+          blocker.style.visibility = "visible";
           document.body.style.overflow = "";
         } else {
           blocker.style.display = "none";
+          
+          blocker.style.opacity = "0";
+          blocker.style.visibility = "hidden"
           document.body.style.overflow = "";
         }
       }
@@ -1161,8 +1244,6 @@
             memoryDiv.style.minHeight = "80vh";
             // Theme-aware accent color for Memory Match
             let memAccent = "#6f42c1";
-            if (document.body.classList.contains("theme-mario"))
-              memAccent = "#e63946";
             if (document.body.classList.contains("theme-luigi"))
               memAccent = "#3ad029";
             if (document.body.classList.contains("theme-rosalina"))
@@ -1972,8 +2053,6 @@
                 return "#3ad029"; // Luigi green
               if (document.body.classList.contains("theme-rosalina"))
                 return "#00bcd4";
-              if (document.body.classList.contains("theme-mario"))
-                return "#e63946";
               return "#39e66d"; // default green
             }
             // Modern, visually appealing input and card UI with further improvements
