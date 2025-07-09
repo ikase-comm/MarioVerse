@@ -451,6 +451,12 @@
     </style>
   </head>
   <body>
+    <!-- Site Loading Screen -->
+    <div id="siteLoadingScreen" style="position:fixed;z-index:999999;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(120deg,#ffecd2 0%,#fcb69f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
+      <div style="font-size:3em;margin-bottom:0.5em;">🍄</div>
+      <div style="font-size:2em;font-family:'Luckiest Guy','Super Mario Bros','Segoe UI',Arial,sans-serif;color:#e63946;text-shadow:2px 2px 0 #ffd600,0 2px 8px #fff8;">Loading MarioVerse...</div>
+      <div id="siteLoadingProgress" style="margin-top:1.5em;font-size:1.1em;color:#444;background:#fff8;padding:0.7em 2em;border-radius:1.2em;box-shadow:0 2px 8px #0001;">Loading assets...</div>
+    </div>
     <div
       id="mobileBlocker"
       style="
@@ -515,7 +521,7 @@
         style="
           font-family: 'Luckiest Guy', 'Super Mario Bros', 'Montserrat', Arial,
             sans-serif;
-          font-size: 2.1em;
+          font-size: 2.7em;
           letter-spacing: 0.08em;
           font-weight: bold;
           display: flex;
@@ -1020,6 +1026,53 @@
     <script src="quiz.js"></script>
 
     <script>
+      // Site loading screen logic
+      (function(){
+        const loadingScreen = document.getElementById('siteLoadingScreen');
+        const progress = document.getElementById('siteLoadingProgress');
+        // List of images to preload (all home/game card images + main game assets)
+        const images = [
+          'img/mushroom.png','img/Star.png','img/Coin.png','img/QuestionBlock.png',
+          'img/Mario.png','img/Goomba.png','img/Koopa.png','img/Yoshi.png',
+          'img/MarioCoinCatcher.png','img/Luigi.png','img/Bowser.png','img/Peach.png','img/Toad.png'
+        ];
+        let loaded = 0;
+        let total = images.length + 1; // +1 for font
+        function updateProgress() {
+          if (progress) progress.textContent = `Loading assets... (${loaded}/${total})`;
+        }
+        // Preload images
+        images.forEach(src => {
+          const img = new window.Image();
+          img.onload = img.onerror = () => {
+            loaded++;
+            updateProgress();
+            checkDone();
+          };
+          img.src = src;
+        });
+        // Preload font (Luckiest Guy)
+        const font = new FontFace('Luckiest Guy', "url(https://fonts.gstatic.com/s/luckiestguy/v21/_gP_1RrxsjcxVyin9l9n_j2hTd52.woff2)");
+        font.load().then(function() {
+          document.fonts.add(font);
+          loaded++;
+          updateProgress();
+          checkDone();
+        }).catch(function(){
+          loaded++;
+          updateProgress();
+          checkDone();
+        });
+        function checkDone() {
+          if (loaded >= total) {
+            setTimeout(() => {
+              loadingScreen.style.opacity = 0;
+              setTimeout(() => loadingScreen.style.display = 'none', 500);
+            }, 400);
+          }
+        }
+        updateProgress();
+      })();
       // THEME SYSTEM
       const THEMES = [
         { id: "default", name: "Default", desc: "Classic MarioVerse look." },
@@ -1423,7 +1476,7 @@
             const whatNextQuestions = [
               {
                 question:
-                  "Mario sees a goomba. What does he do next?",
+                  "Mario sees a Goomba. What does he do next?",
                 image: null,
                 answers: [
                   "He jumps on it",
@@ -1880,18 +1933,43 @@
                 modal.style.left = "0";
                 modal.style.width = "100vw";
                 modal.style.height = "100vh";
-                modal.style.background = "rgba(30,30,60,0.25)";
+                // Theme-aware modal background, but more visually distinct for Coin Catcher
+                let modalBg = 'rgba(255, 255, 255, 0.18)';
+                if (document.body.classList.contains('theme-luigi')) modalBg = 'rgba(182,255,176,0.22)';
+                if (document.body.classList.contains('theme-rosalina')) modalBg = 'rgba(179,229,252,0.22)';
+                modal.style.background = modalBg;
                 modal.style.zIndex = "99999";
                 modal.style.display = "flex";
                 modal.style.alignItems = "center";
                 modal.style.justifyContent = "center";
+                // Distinct inner modal color for Coin Catcher
+                // Use a more playful, Mario-style modal color (blue for Mario, green for Luigi, blue for Rosalina)
+                let innerBg = "linear-gradient(135deg,#3b77f8 60%,#0077ff 100%)";
+                let h2Color = "#fff";
+                let h2Shadow = "2px 2px 0 #ffd600";
+                let btnAccent = "#ffd600";
+                let restartAccent = "#e63946";
+                if (document.body.classList.contains('theme-luigi')) {
+                  innerBg = "linear-gradient(135deg,#3ad029 60%,#155c1a 100%)";
+                  h2Color = "#fff";
+                  h2Shadow = "2px 2px 0 #b6ffb0";
+                  btnAccent = "#b6ffb0";
+                  restartAccent = "#3ad029";
+                }
+                if (document.body.classList.contains('theme-rosalina')) {
+                  innerBg = "linear-gradient(135deg,#1976d2 60%,#81d4fa 100%)";
+                  h2Color = "#fff";
+                  h2Shadow = "2px 2px 0 #e0f7fa";
+                  btnAccent = "#81d4fa";
+                  restartAccent = "#1976d2";
+                }
                 modal.innerHTML = `
-                  <div style='background:linear-gradient(135deg,#ffd600 60%,#ff9800 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:30vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
-                    <h2 style='font-size:2.3em;color:#ff9800;text-shadow:2px 2px 0 #fff176;margin-bottom:0.7em;'>${message}</h2>
-                    <div style='font-size:1.5em;color:#222;margin-bottom:1.2em;'>Coins: <b>${score}</b><br>High Score: <b>${coinHighScore}</b></div>
+                  <div style='background:${innerBg};border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:30vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
+                    <h2 style='font-size:2.3em;color:${h2Color};text-shadow:${h2Shadow};margin-bottom:0.7em;'>${message}</h2>
+                    <div style='font-size:1.5em;color:#fff;margin-bottom:1.2em;text-shadow:0 1px 8px #0008;'>Coins: <b>${score}</b><br>High Score: <b>${coinHighScore}</b></div>
                     <div style='display:flex;gap:1.5em;'>
-                      <button id='coinGameExitBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Exit Game</button>
-                      <button id='coinGameRestartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#39e66d;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Restart</button>
+                      <button id='coinGameExitBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:${btnAccent};color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Exit Game</button>
+                      <button id='coinGameRestartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:${restartAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Restart</button>
                     </div>
                   </div>
                 `;
@@ -2038,7 +2116,10 @@
                   <button id="restartScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:var(--scramble-accent,#39e66d);color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;margin-left:auto;transition:background 0.2s;">Restart</button>
                 </div>
                 <div style="flex:1;display:flex;flex-direction:column;align-items:center;width:100vw;min-height:60vh;">
-                  <h2 id="scrambleTitle" style="font-size:2.8em;color:var(--scramble-accent,#39e66d);text-shadow:2px 2px 0 #ffd600, 0 2px 8px #fff8;margin-bottom:1.2em;margin-top:0.5em;letter-spacing:0.08em;text-align:center;font-family:'Comic Sans MS','Comic Sans','Arial Rounded MT Bold',cursive;">Mario <span style='color:#3ad029;'>Word</span> <span style='color:#226ac8;'>Scramble</span></h2>
+                  <div id="scrambleTimerTop" style="width:100%;display:flex;justify-content:center;align-items:center;margin-bottom:0.7em;margin-top:0.5em;">
+                    <span id="scrambleTimer" style="font-size:1.25em;color:#888;font-weight:bold;background:#fff;border-radius:1em;padding:0.3em 1.2em;box-shadow:0 2px 8px #0001;letter-spacing:0.04em;"></span>
+                  </div>
+                  <h2 id="scrambleTitle" style="font-size:2.8em;color:var(--scramble-accent,#39e66d);text-shadow:2px 2px 0 #ffd600, 0 2px 8px #fff8;margin-bottom:1.2em;margin-top:0.2em;letter-spacing:0.08em;text-align:center;font-family:'Comic Sans MS','Comic Sans','Arial Rounded MT Bold',cursive;">Mario <span style='color:#3ad029;'>Word</span> <span style='color:#226ac8;'>Scramble</span></h2>
                   <div id="scrambleQuizContent" style="width:100vw;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;"></div>
                 </div>
               </div>
@@ -2091,9 +2172,12 @@
               html += `<div style='display:flex;gap:1em;justify-content:center;margin-bottom:1.2em;'>
                 <button id='hintScrambleBtn' style='padding:0.7em 1.3em;border-radius:1.2em;background:#ffd600;color:#222;font-size:1.05em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Hint</button>
                 <span id='scrambleStreak' style='font-size:1.08em;color:${accent};font-weight:bold;'></span>
-                <span id='scrambleTimer' style='font-size:1.08em;color:#888;font-weight:normal;'></span>
               </div>`;
               html += `<button id='submitScrambleBtn' style='padding:0.9em 1.7em;border-radius:1.7em;background:${accent};color:#fff;font-size:1.18em;font-weight:bold;border:none;box-shadow:0 4px 16px #b6ffb055;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>`;
+              // Timer at top
+              if (document.getElementById('scrambleTimer')) {
+                document.getElementById('scrambleTimer').textContent = '';
+              }
               document.getElementById("scrambleQuizContent").innerHTML = html;
               document.getElementById("scrambleInput").focus();
               // Show streak
@@ -2102,7 +2186,7 @@
               } else {
                 document.getElementById("scrambleStreak").textContent = "";
               }
-              // Timer
+              // Timer at top
               scrambleStartTime = Date.now();
               let timerInterval = setInterval(() => {
                 if (document.getElementById("scrambleTimer")) {
