@@ -1168,125 +1168,140 @@
               memAccent = "#3ad029";
             if (document.body.classList.contains("theme-rosalina"))
               memAccent = "#1976d2";
-            memoryDiv.innerHTML = `
-                    <h2 style="font-size:2em;color:${memAccent};text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;">Mario Memory Match</h2>
-                    <div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,80px);gap:1em;margin-bottom:2em;"></div>
-                    <div id="memoryStatus" style="margin:1em 0 0 0;font-size:1.1em;color:#444;"></div>
-                    <button id="backToMenuBtn" style="padding:0.8em 2em;border-radius:1.5em;background:${memAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;margin-top:2em;">Back Home</button>
-                `;
+            // Loading screen
+            memoryDiv.innerHTML = `<div id="memoryLoading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;"><div style='font-size:2.2em;margin-bottom:0.7em;'>🧩</div><div style='font-size:1.3em;color:${memAccent};font-weight:bold;'>Loading images...</div></div>`;
             document.body.appendChild(memoryDiv);
             // Mario characters (use emoji for simplicity)
             const characters = [
-              { name: "Mario", icon: '<img src="img/Mario.png"></img>' },
-              { name: "Luigi", icon: "<img src=\"img/Luigi.png\"></img>" },
-              { name: "Bowser", icon: "<img src=\"img/Bowser.png\"></img>"},
-              { name: "Peach", icon: "<img src=\"img/Peach.png\"></img>" },
-              { name: "Yoshi", icon: '<img src="img/Yoshi.png"></img>' },
-              { name: "Toad", icon: "<img src=\"img/Toad.png\"></img>" },
-              { name: "Goomba", icon: '<img src="img/Goomba.png"></img>' },
-              { name: "Koopa", icon: '<img src="img/Koopa.png"></img>' },
+              { name: "Mario", icon: '<img src="img/Mario.png"></img>', img: "img/Mario.png" },
+              { name: "Luigi", icon: "<img src=\"img/Luigi.png\"></img>", img: "img/Luigi.png" },
+              { name: "Bowser", icon: "<img src=\"img/Bowser.png\"></img>", img: "img/Bowser.png" },
+              { name: "Peach", icon: "<img src=\"img/Peach.png\"></img>", img: "img/Peach.png" },
+              { name: "Yoshi", icon: '<img src="img/Yoshi.png"></img>', img: "img/Yoshi.png" },
+              { name: "Toad", icon: "<img src=\"img/Toad.png\"></img>", img: "img/Toad.png" },
+              { name: "Goomba", icon: '<img src="img/Goomba.png"></img>', img: "img/Goomba.png" },
+              { name: "Koopa", icon: '<img src="img/Koopa.png"></img>', img: "img/Koopa.png" },
             ];
-            // Use 8 pairs (16 cards)
-            let cards = [...characters, ...characters].map((c, i) => ({
-              ...c,
-              id: i,
-            }));
-            // Shuffle
-            for (let i = cards.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [cards[i], cards[j]] = [cards[j], cards[i]];
-            }
-            const grid = document.getElementById("memoryGrid");
-            let flipped = [],
-              matched = [];
-            function render() {
-              grid.innerHTML = "";
-              cards.forEach((card, idx) => {
-                const btn = document.createElement("button");
-                btn.style.width = "80px";
-                btn.style.height = "80px";
-                btn.style.fontSize = "2.5em";
-                btn.style.borderRadius = "1em";
-                btn.style.background =
-                  matched.includes(idx) || flipped.includes(idx)
-                    ? "#fff8e1"
-                    : "#ffd600";
-                btn.style.boxShadow = "0 2px 8px #0002";
-                btn.style.border = "2px solid #e63946";
-                btn.style.cursor = matched.includes(idx)
-                  ? "default"
-                  : "pointer";
-                btn.style.display = "flex";
-                btn.style.alignItems = "center";
-                btn.style.justifyContent = "center";
-                btn.style.padding = "0";
-                btn.style.overflow = "hidden";
-                if (matched.includes(idx) || flipped.includes(idx)) {
-                  if (card.icon.startsWith("<img")) {
-                    // Create an img element for better control
-                    const temp = document.createElement("div");
-                    temp.innerHTML = card.icon;
-                    const img = temp.querySelector("img");
-                    if (img) {
-                      img.style.display = "block";
-                      img.style.margin = "auto";
-                      img.style.width = "56px";
-                      img.style.height = "56px";
-                      img.style.objectFit = "contain";
-                      img.style.verticalAlign = "middle";
-                      btn.innerHTML = "";
-                      btn.appendChild(img);
+            // Preload all images
+            const allImgs = characters.map(c => c.img);
+            let loaded = 0;
+            allImgs.forEach(src => {
+              const img = new window.Image();
+              img.onload = img.onerror = () => {
+                loaded++;
+                if (loaded === allImgs.length) startMemoryGame();
+              };
+              img.src = src;
+            });
+            function startMemoryGame() {
+              memoryDiv.innerHTML = `
+                <h2 style="font-size:2em;color:${memAccent};text-shadow:1px 1px 0 #ffd600;margin-bottom:1em;">Mario Memory Match</h2>
+                <div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,80px);gap:1em;margin-bottom:2em;"></div>
+                <div id="memoryStatus" style="margin:1em 0 0 0;font-size:1.1em;color:#444;"></div>
+                <button id="backToMenuBtn" style="padding:0.8em 2em;border-radius:1.5em;background:${memAccent};color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;margin-top:2em;">Back Home</button>
+              `;
+              // Use 8 pairs (16 cards)
+              let cards = [...characters, ...characters].map((c, i) => ({
+                ...c,
+                id: i,
+              }));
+              // Shuffle
+              for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+              }
+              const grid = document.getElementById("memoryGrid");
+              let flipped = [],
+                matched = [];
+              function render() {
+                grid.innerHTML = "";
+                cards.forEach((card, idx) => {
+                  const btn = document.createElement("button");
+                  btn.style.width = "80px";
+                  btn.style.height = "80px";
+                  btn.style.fontSize = "2.5em";
+                  btn.style.borderRadius = "1em";
+                  btn.style.background =
+                    matched.includes(idx) || flipped.includes(idx)
+                      ? "#fff8e1"
+                      : "#ffd600";
+                  btn.style.boxShadow = "0 2px 8px #0002";
+                  btn.style.border = "2px solid #e63946";
+                  btn.style.cursor = matched.includes(idx)
+                    ? "default"
+                    : "pointer";
+                  btn.style.display = "flex";
+                  btn.style.alignItems = "center";
+                  btn.style.justifyContent = "center";
+                  btn.style.padding = "0";
+                  btn.style.overflow = "hidden";
+                  if (matched.includes(idx) || flipped.includes(idx)) {
+                    if (card.icon.startsWith("<img")) {
+                      // Create an img element for better control
+                      const temp = document.createElement("div");
+                      temp.innerHTML = card.icon;
+                      const img = temp.querySelector("img");
+                      if (img) {
+                        img.style.display = "block";
+                        img.style.margin = "auto";
+                        img.style.width = "56px";
+                        img.style.height = "56px";
+                        img.style.objectFit = "contain";
+                        img.style.verticalAlign = "middle";
+                        btn.innerHTML = "";
+                        btn.appendChild(img);
+                      } else {
+                        btn.textContent = "❓";
+                      }
                     } else {
-                      btn.textContent = "❓";
+                      btn.textContent = card.icon;
                     }
                   } else {
-                    btn.textContent = card.icon;
+                    btn.textContent = "❓";
                   }
-                } else {
-                  btn.textContent = "❓";
-                }
-                btn.disabled = matched.includes(idx);
-                btn.onclick = () => {
-                  if (
-                    flipped.length < 2 &&
-                    !flipped.includes(idx) &&
-                    !matched.includes(idx)
-                  ) {
-                    flipped.push(idx);
-                    render();
-                    if (flipped.length === 2) {
-                      setTimeout(() => {
-                        const [a, b] = flipped;
-                        if (cards[a].name === cards[b].name && a !== b) {
-                          matched.push(a, b);
-                          document.getElementById(
-                            "memoryStatus"
-                          ).textContent = `Matched ${cards[a].name}!`;
-                        } else {
-                          document.getElementById("memoryStatus").textContent =
-                            "Try again!";
-                        }
-                        flipped = [];
-                        render();
-                        if (matched.length === cards.length) {
-                          document.getElementById("memoryStatus").textContent =
-                            "You matched all the Mario characters! 🎉";
-                        }
-                      }, 800);
+                  btn.disabled = matched.includes(idx);
+                  btn.onclick = () => {
+                    if (
+                      flipped.length < 2 &&
+                      !flipped.includes(idx) &&
+                      !matched.includes(idx)
+                    ) {
+                      flipped.push(idx);
+                      render();
+                      if (flipped.length === 2) {
+                        setTimeout(() => {
+                          const [a, b] = flipped;
+                          if (cards[a].name === cards[b].name && a !== b) {
+                            matched.push(a, b);
+                            document.getElementById(
+                              "memoryStatus"
+                            ).textContent = `Matched ${cards[a].name}!`;
+                          } else {
+                            document.getElementById("memoryStatus").textContent =
+                              "Try again!";
+                          }
+                          flipped = [];
+                          render();
+                          if (matched.length === cards.length) {
+                            document.getElementById("memoryStatus").textContent =
+                              "You matched all the Mario characters! 🎉";
+                          }
+                        }, 800);
+                      }
                     }
-                  }
-                };
-                grid.appendChild(btn);
-              });
+                  };
+                  grid.appendChild(btn);
+                });
+              }
+              render();
+              document.getElementById("backToMenuBtn").onclick = () => {
+                memoryDiv.style.display = "none";
+                home.style.display = "flex";
+                showFooter();
+                // Restore Game Hub scroll
+                home.style.overflowY = "auto";
+              };
             }
-            render();
-            document.getElementById("backToMenuBtn").onclick = () => {
-              memoryDiv.style.display = "none";
-              home.style.display = "flex";
-              showFooter();
-              // Restore Game Hub scroll
-              home.style.overflowY = "auto";
-            };
           };
         }
         // What Happens Next? Mario Quiz logic
@@ -1537,13 +1552,46 @@
                   <div style='background:linear-gradient(135deg,#ffd600 60%,#ff9800 100%);border-radius:2.5em;box-shadow:0 8px 32px 0 rgba(31,38,135,0.18);padding:3vw 3vw 2vw 3vw;max-width:90vw;min-width:320px;min-height:20vh;display:flex;flex-direction:column;align-items:center;justify-content:center;'>
                     <h2 style='font-size:2.1em;color:#ff9800;text-shadow:2px 2px 0 #fff176;margin-bottom:0.7em;'>How to Play</h2>
                     <div style='font-size:1.3em;color:#222;margin-bottom:1.2em;text-align:center;'>Use the <b>Left</b> and <b>Right</b> arrow keys on your keyboard to move Mario.<br>Catch coins, avoid Goombas!</div>
+                    <div id='coinCatcherLoading' style='font-size:1.1em;color:#ff9800;margin-bottom:1.2em;display:none;'>Loading images...</div>
                     <button id='coinGameStartBtn' style='padding:0.9em 2.2em;font-size:1.1em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;transition:background 0.2s;'>Start Game</button>
                   </div>
                 `;
                 document.body.appendChild(modal);
+                // Preload images while modal is open
+                const imagesToLoad = [
+                  'img/MarioCoinCatcher.png',
+                  'img/Coin.png',
+                  'img/Goomba.png'
+                ];
+                let loaded = 0;
+                let loadingShown = false;
+                const showLoading = () => {
+                  if (!loadingShown) {
+                    document.getElementById('coinCatcherLoading').style.display = 'block';
+                    loadingShown = true;
+                  }
+                };
+                imagesToLoad.forEach(src => {
+                  const img = new window.Image();
+                  img.onload = img.onerror = () => {
+                    loaded++;
+                    if (loaded === imagesToLoad.length) {
+                      document.getElementById('coinCatcherLoading').style.display = 'none';
+                      document.getElementById('coinGameStartBtn').disabled = false;
+                      document.getElementById('coinGameStartBtn').textContent = 'Start Game';
+                    }
+                  };
+                  img.src = src;
+                });
+                // Disable start button until loaded
+                document.getElementById('coinGameStartBtn').disabled = true;
+                document.getElementById('coinGameStartBtn').textContent = 'Loading...';
+                showLoading();
                 document.getElementById('coinGameStartBtn').onclick = function() {
-                  modal.remove();
-                  startCoinCatcherGame();
+                  if (loaded === imagesToLoad.length) {
+                    modal.remove();
+                    startCoinCatcherGame();
+                  }
                 };
               }
             }, 0);
