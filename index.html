@@ -31,8 +31,6 @@
         background-size: 400% 400%;
         animation: gradientBG 15s ease infinite;
         overflow-x: hidden;
-        /* Remove all overflow except for Game Hub */
-        overflow-y: hidden;
         box-sizing: border-box;
       }
 
@@ -1084,7 +1082,8 @@
         }
         if (isMobile || isTooNarrow || isTooShortLandscape) {
           blocker.style.display = "flex";
-          document.body.style.overflow = "hidden";
+          // Never block overflow
+          document.body.style.overflow = "";
         } else {
           blocker.style.display = "none";
           document.body.style.overflow = "";
