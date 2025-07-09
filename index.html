@@ -2111,16 +2111,16 @@
             // Modern, visually appealing UI with theme-aware accent color, Luigi Green compatibility, and no gradients
             scrambleDiv.innerHTML = `
               <div class="quiz-container" id="scrambleQuizStyled" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100vw;min-height:100vh;background:#fffefb;border-radius:1.5em;box-shadow:0 8px 32px #b6ffb055;padding:2em 0 2.5em 0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid #ffd600;">
-                <div style="width:100vw;max-width:700px;display:flex;justify-content:center;align-items:center;padding:1.2em 2em 0.5em 2em;margin:0 auto;">
-                  <button id="backToMenuScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;margin-right:auto;transition:background 0.2s;">← Home</button>
-                  <button id="restartScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:var(--scramble-accent,#39e66d);color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;margin-left:auto;transition:background 0.2s;">Restart</button>
+                <div style="width:100vw;max-width:600px;display:flex;justify-content:space-between;align-items:center;padding:1.2em 2em 0.5em 2em;margin:0 auto;gap:1em;">
+                  <button id="backToMenuScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:#ffd600;color:#222;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;transition:background 0.2s;">← Home</button>
+                  <div style="flex:1;text-align:center;"></div>
+                  <span id="scrambleTimerInline" style="font-size:1.8em;color:#888;font-weight:bold;background:#fff;border-radius:1em;padding:0.3em 1.2em;box-shadow:0 2px 8px #0001;letter-spacing:0.04em;margin-left:1em;"></span>
+                              <div style="flex:1;text-align:center;"></div>
+                  <button id="restartScrambleBtn" style="padding:0.7em 1.7em;border-radius:1.5em;background:#226ac8;color:#fff;font-weight:bold;box-shadow:0 2px 8px #0002;border:none;cursor:pointer;font-size:1.1em;transition:background 0.2s;">Restart</button>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;width:100vw;min-height:60vh;">
-                  <div id="scrambleTimerTop" style="width:100%;display:flex;justify-content:center;align-items:center;margin-bottom:0.7em;margin-top:0.5em;">
-                    <span id="scrambleTimer" style="font-size:1.25em;color:#888;font-weight:bold;background:#fff;border-radius:1em;padding:0.3em 1.2em;box-shadow:0 2px 8px #0001;letter-spacing:0.04em;"></span>
-                  </div>
-                  <h2 id="scrambleTitle" style="font-size:2.8em;color:var(--scramble-accent,#39e66d);text-shadow:2px 2px 0 #ffd600, 0 2px 8px #fff8;margin-bottom:1.2em;margin-top:0.2em;letter-spacing:0.08em;text-align:center;font-family:'Comic Sans MS','Comic Sans','Arial Rounded MT Bold',cursive;">Mario <span style='color:#3ad029;'>Word</span> <span style='color:#226ac8;'>Scramble</span></h2>
-                  <div id="scrambleQuizContent" style="width:100vw;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;"></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;width:100vw;min-height:60vh;max-width:600px;margin:0 auto;">
+                  
+                  <div id="scrambleQuizContent" style="width:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fffefb;border-radius:1.2em;padding:1.5em 1.2em 1.2em 1.2em;box-shadow:0 2px 12px #b6ffb022;"></div>
                 </div>
               </div>
             `;
@@ -2162,22 +2162,19 @@
             }
             function renderScrambleQuestion() {
               const q = scrambleWords[scrambleIndex];
-              const accent = getScrambleAccent();
-            let html = `<div style='font-size:1.35em;margin-bottom:1.2em;color:${accent};text-shadow:0 1px 8px #fff8;text-align:center;font-weight:bold;letter-spacing:0.04em;'>Unscramble the Mario word!</div>`;
-              html += `<div style="display:flex;align-items:center;justify-content:center;margin-bottom:1.2em;">
-                <span id="scrambleWord" style="font-weight:bold;font-size:2.3em;color:${accent};letter-spacing:0.22em;background:#fffefb;border:3px solid #ffd600;border-radius:1.2em;padding:0.32em 1.3em;box-shadow:0 4px 16px #0001,0 0 0 4px #ffd60033;transition:background 0.3s;">${q.scrambled}</span>
+              // Use a Mario blue accent, not green
+              const accent = "#226ac8";
+              let html = `<div style='font-size:2.1em;margin-bottom:1.1em;color:${accent};text-shadow:0 1px 8px #fff8;text-align:center;font-weight:bold;letter-spacing:0.04em;margin-top:1.2em;'>Unscramble the word</div>`;
+              html += `<div style="display:flex;align-items:center;justify-content:center;margin-bottom:1.5em;margin-top:0.5em;">
+                <span id="scrambleWord" style="font-weight:bold;font-size:2.5em;color:${accent};letter-spacing:0.22em;background:#fffefb;border:2.5px solid #ffd600;border-radius:1.2em;padding:0.28em 1.1em;box-shadow:0 2px 8px #ffd60022,0 0 0 3px #ffd60022;transition:background 0.3s;">${q.scrambled}</span>
               </div>`;
-              html += `<input id='scrambleInput' type='text' autocomplete='off' placeholder='Type your answer...' style='font-size:1.35em;padding:0.8em 1.3em;border-radius:1.3em;border:2.5px solid ${accent};margin-bottom:1.1em;width:95%;max-width:370px;text-align:center;outline:none;box-shadow:0 2px 12px #b6ffb055;background:#fffefb;transition:border 0.2s,box-shadow 0.2s;'>`;
-              html += `<div id='scrambleStatus' style='min-height:1.7em;margin-bottom:1.2em;font-size:1.18em;color:#444;text-align:center;font-weight:bold;'></div>`;
-              html += `<div style='display:flex;gap:1em;justify-content:center;margin-bottom:1.2em;'>
-                <button id='hintScrambleBtn' style='padding:0.7em 1.3em;border-radius:1.2em;background:#ffd600;color:#222;font-size:1.05em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Hint</button>
-                <span id='scrambleStreak' style='font-size:1.08em;color:${accent};font-weight:bold;'></span>
+              html += `<input id='scrambleInput' type='text' autocomplete='off' placeholder='Type your answer...' style='font-size:1.18em;padding:0.7em 1.1em;border-radius:1.1em;border:2px solid ${accent};margin-bottom:1em;width:100%;max-width:320px;text-align:center;outline:none;box-shadow:0 2px 8px #b6ffb022;background:#fffefb;transition:border 0.2s,box-shadow 0.2s;'>`;
+              html += `<div id='scrambleStatus' style='min-height:1.5em;margin-bottom:1em;font-size:1.08em;color:#444;text-align:center;font-weight:bold;'></div>`;
+              html += `<div style='display:flex;gap:0.4em;justify-content:center;align-items:center;margin-bottom:1.2em;'>
+                <button id='hintScrambleBtn' style='padding:0.8em 1.3em;border-radius:1.1em;background:#ffd600;color:#222;font-size:1.08em;font-weight:bold;border:none;box-shadow:0 2px 8px #0001;cursor:pointer;transition:background 0.2s;'>Hint</button>
+                <button id='submitScrambleBtn' style='padding:0.8em 1.3em;border-radius:1.1em;background:${accent};color:#fff;font-size:1.08em;font-weight:bold;border:none;box-shadow:0 2px 8px #b6ffb055;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>
+                <span id='scrambleStreak' style='font-size:1em;color:${accent};font-weight:bold;margin-left:0.7em;'></span>
               </div>`;
-              html += `<button id='submitScrambleBtn' style='padding:0.9em 1.7em;border-radius:1.7em;background:${accent};color:#fff;font-size:1.18em;font-weight:bold;border:none;box-shadow:0 4px 16px #b6ffb055;cursor:pointer;transition:background 0.2s,transform 0.2s;'>Submit</button>`;
-              // Timer at top
-              if (document.getElementById('scrambleTimer')) {
-                document.getElementById('scrambleTimer').textContent = '';
-              }
               document.getElementById("scrambleQuizContent").innerHTML = html;
               document.getElementById("scrambleInput").focus();
               // Show streak
@@ -2186,12 +2183,13 @@
               } else {
                 document.getElementById("scrambleStreak").textContent = "";
               }
-              // Timer at top
+              // Timer inline with buttons
               scrambleStartTime = Date.now();
               let timerInterval = setInterval(() => {
-                if (document.getElementById("scrambleTimer")) {
+                const timerEl = document.getElementById("scrambleTimerInline");
+                if (timerEl) {
                   let t = ((Date.now() - scrambleStartTime) / 1000).toFixed(1);
-                  document.getElementById("scrambleTimer").textContent = `⏱️ ${t}s`;
+                  timerEl.textContent = `⏱️ ${t}s`;
                 } else {
                   clearInterval(timerInterval);
                 }
@@ -2205,7 +2203,6 @@
                 document.getElementById("hintScrambleBtn").style.opacity = 0.6;
               };
               document.getElementById("submitScrambleBtn").onclick = () => {
-                
                 const val = document
                   .getElementById("scrambleInput")
                   .value.trim()
@@ -2223,8 +2220,8 @@
                   document.getElementById("scrambleStatus").style.color =
                     accent;
                   inputEl.style.borderColor = accent;
-                  inputEl.style.background = "#eaffea";
-                  wordEl.style.background = "#eaffea";
+                  inputEl.style.background = "#e3f0ff";
+                  wordEl.style.background = "#e3f0ff";
                   wordEl.style.color = accent;
                   setTimeout(() => {
                     scrambleIndex++;
@@ -2294,11 +2291,9 @@
               renderScrambleQuestion();
             };
             // Set accent color CSS var for the modal (for h2 and restart button)
-            const accent = getScrambleAccent();
-            document
-              .getElementById("scrambleQuizStyled")
-              .style.setProperty("--scramble-accent", accent);
-            document.getElementById("scrambleTitle").style.color = accent;
+            // Set accent color CSS var for the modal (for h2 and restart button)
+            const accent = "#226ac8";
+            document.getElementById("scrambleQuizStyled").style.setProperty("--scramble-accent", accent);
           };
         }
         // Hide quiz by default, show home
